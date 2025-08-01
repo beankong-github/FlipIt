@@ -80,54 +80,31 @@ void Level::Tick(float deltaTime)
 			continue;
 		}
 
+		// 수명 주기 확인 및 처리.
+		if (actor->autoDestroy)
+		{
+			// 수명 주기 감소 처리.
+			actor->lifetime -= deltaTime;
+
+			// 수명이 다했는지 확인.
+			if (actor->lifetime <= 0.0f)
+			{
+				// 액터 제거 요청하고, 다음 액터 처리.
+				actor->lifetime = 0.0f;
+				actor->Destroy();
+				continue;
+			}
+		}
+
 		actor->Tick(deltaTime);
 	}
 }
 
 void Level::Render()
 {
-	// 그리기 전에 정렬 순서 기준으로 재배치(정렬).
-	SortActorsBySortingOrder();
-
 	// Render Pass.
 	for (Actor* const actor : actors)
 	{
-		// 액터 처리 여부 확인.
-		if (!actor->isActive || actor->isExpired)
-		{
-			continue;
-		}
-
-		// 검사 (같은 위치에 정렬 순서 높은 액터가 있는지 확인).
-		Actor* searchedActor = nullptr;
-		for (Actor* const otherActor : actors)
-		{
-			// 같은 액터면 무시.
-			if (actor == otherActor)
-			{
-				continue;
-			}
-
-			// 위치가 같은 액터 확인.
-			if (actor->Position() == otherActor->Position())
-			{
-				// 정렬 순서 비교 후 액터 저장.
-				if (actor->sortingOrder < otherActor->sortingOrder)
-				{
-					// 저장 및 루프 종료.
-					searchedActor = otherActor;
-					break;
-				}
-			}
-		}
-
-		// 어떤 액터와 같은 위치에 정렬 순서가 더 높은 액터가 있으면,
-		// 그리지 않고 건너뛰기.
-		if (searchedActor)
-		{
-			continue;
-		}
-
 		// 드로우 콜.
 		actor->Render();
 	}

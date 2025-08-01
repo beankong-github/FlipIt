@@ -156,6 +156,17 @@ bool Actor::TestIntersect(const Actor* const other)
 	return position.y == other->position.y;
 }
 
+void Actor::ChangeImage(const char* newImage)
+{
+	// 기존 이미지 메모리 해제.
+	SafeDelete(image);
+
+	// 새로운 문자열 복사.
+	size_t length = strlen(newImage) + 1;
+	image = new char[length];
+	strcpy_s(image, length, newImage);
+}
+
 void Actor::Destroy()
 {
 	// 중복 삭제 방지 처리.
@@ -169,6 +180,29 @@ void Actor::Destroy()
 
 	// 레벨에 삭제 요청.
 	owner->DestroyActor(this);
+
+	// 죽음 요청됐다고 알림.
+	OnDestroy();
+}
+
+void Actor::OnDestroy()
+{
+
+}
+
+void Actor::SetLifetime(float newLifetime)
+{
+	// 입력값 확인.
+	if (newLifetime <= 0.0f)
+	{
+		return;
+	}
+
+	// 수명 주기 설정.
+	lifetime = newLifetime;
+
+	// 자동 제거 옵션 활성화.
+	autoDestroy = true;
 }
 
 void Actor::QuitGame()
