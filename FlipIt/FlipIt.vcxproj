@@ -152,6 +152,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Tile.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Level\TestLevel.h" />
   </ItemGroup>
