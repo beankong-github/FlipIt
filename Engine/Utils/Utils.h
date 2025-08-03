@@ -42,7 +42,7 @@ namespace Utils
 		SetConsoleTextAttribute(handle, color);
 	}
 
-	inline void SetConsoleTextColor(Color color)
+	inline void SetConsoleTextColor(EColor color)
 	{
 		SetConsoleTextColor(static_cast<WORD>(color));
 	}

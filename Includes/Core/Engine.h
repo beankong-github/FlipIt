@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
+#include "Actor/Actor.h"
 
 #include <Windows.h>
 
@@ -62,8 +63,10 @@ public:
 
 	// 문자열 그리기 요청 함수.
 	void WriteToBuffer(
-		const Vector2& position, const char* image, Color color = Color::White, int sortingOrder = 0
+		const Vector2& position, const char* image, EColor color = EColor::White, int sortingOrder = 0
 	);
+
+	void WriteToBuffer(const Actor& actor);
 
 	// 버퍼를 곧바로 교환 요청할 때 사용하는 함수.
 	void PresentImmediately();

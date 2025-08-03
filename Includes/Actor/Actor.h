@@ -15,7 +15,7 @@ class Engine_API Actor : public RTTI
 public:
 	Actor(
 		const char* image = "",
-		Color color = Color::White,
+		EColor color = EColor::White,
 		const Vector2& position = Vector2::Zero
 	);
 	virtual ~Actor();
@@ -36,13 +36,15 @@ public:
 
 	// 위치 설정/값 읽는 함수.
 	void SetPosition(const Vector2& newPosition);
-	Vector2 Position() const;
+	inline Vector2 Position() const;
+	inline Vector2 Size() const;
 
 	// 문자열 길이 반환.
-	int Width() const;
+	inline int Length() const;
 
 	// Sorting Order 설정.
-	void SetSortingOrder(unsigned int sortingOrder);
+	void SetSortingOrder(int sortingOrder);
+	inline int SortingOrder() const;
 
 	// 오너십 설정.
 	void SetOwner(Level* newOwner);
@@ -53,6 +55,10 @@ public:
 
 	// 액터의 이미지 값 변경 함수.
 	void ChangeImage(const char* newImage);
+	inline const char* Image() const;
+
+	// 색상 값 
+	inline EColor Color() const;
 
 	// 객체 삭제 함수.
 	void Destroy();
@@ -67,24 +73,27 @@ public:
 	void QuitGame();
 
 protected:
-	// 개체의 위치.
+	// Transform
+	//위치 정보 (좌상단)
 	Vector2 position;
+	// 크기 정보
+	Vector2 size;
 
 	// 그릴 값.
 	//char image = ' ';
 	char* image = nullptr;
 
 	// 문자열 길이.
-	int width = 0;
+	int length = 0;
 
 	// 텍스트 색상 값.
-	Color color;
+	EColor color;
 
 	// BeginPlay 호출이 되었는지 확인.
 	bool hasBeganPlay = false;
 
 	// 정렬 순서.
-	unsigned int sortingOrder = 0;
+	int sortingOrder = 0;
 
 	// 액터가 활성 상태인지 알려주는 변수.
 	bool isActive = true;

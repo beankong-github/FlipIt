@@ -6,17 +6,35 @@
 #include <Windows.h>
 #include <iostream>
 
-Actor::Actor(const char* image, Color color, const Vector2& position)
+Actor::Actor(const char* image, EColor color, const Vector2& position)
 	: color(color), position(position)
 {
 	// 문자열 길이.
-	width = (int)strlen(image);
-
+	length = (int)strlen(image);
 	// 메모리 할당.
-	this->image = new char[width + 1];
-
+	this->image = new char[length + 1];
 	// 문자열 복사.
-	strcpy_s(this->image, width + 1, image);
+	strcpy_s(this->image, length + 1, image);
+	
+	// image 크기 계산
+	int count = 0;	// '\n' 
+	int index = 0;	// 문자열 인덱스
+	
+	// '\n'기준 문자열 행 개수 계산
+	// image의 행들은 모두 같은 길이라고 가정한다.
+	// 그렇지 않으면 랜더링 시 문제가 생길 수 있음.
+	while (*(image + index))
+	{
+		if (*(image + index) == '\n')
+		{
+			++count;
+		}
+		++index;
+	}
+
+	size.y = count+1;
+	size.x = (length - count + 1) / size.y; // '\n' 을 제외한 문자열 갯수를 행의 갯수만큼 나눈다.
+
 }
 
 Actor::~Actor()
@@ -63,7 +81,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 	}
 
 	// 오른쪽 가장자리가 화면 오른쪽을 벗어났는지.
-	if (newPosition.x + width > Engine::Get().Width())
+	if (newPosition.x + length > Engine::Get().Width())
 	{
 		return;
 	}
@@ -88,7 +106,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 
 	//// 지울 위치 확인.
 	//Vector2 direction = newPosition - position;
-	//position.x = direction.x >= 0 ? position.x : position.x + width - 1;
+	//position.x = direction.x >= 0 ? position.x : position.x + length - 1;
 
 	//// 커서 이동.
 	//Utils::SetConsolePosition(position);
@@ -104,14 +122,24 @@ Vector2 Actor::Position() const
 	return position;
 }
 
-int Actor::Width() const
+Vector2 Actor::Size() const
 {
-	return width;
+	return size;
 }
 
-void Actor::SetSortingOrder(unsigned int sortingOrder)
+int Actor::Length() const
+{
+	return length;
+}
+
+void Actor::SetSortingOrder(int sortingOrder)
 {
 	this->sortingOrder = sortingOrder;
+}
+
+int Actor::SortingOrder() const
+{
+	return sortingOrder;
 }
 
 void Actor::SetOwner(Level* newOwner)
@@ -132,11 +160,11 @@ bool Actor::TestIntersect(const Actor* const other)
 
 	// 이 액터의 x 좌표 정보.
 	int xMin = position.x;
-	int xMax = position.x + width - 1;
+	int xMax = position.x + length - 1;
 
 	// 충돌 비교할 다른 액터의 x 좌표 정보.
 	int otherXMin = other->position.x;
-	int otherXMax = other->position.x + other->width - 1;
+	int otherXMax = other->position.x + other->length - 1;
 
 	// 안겹치는 조건 확인.
 
@@ -165,6 +193,16 @@ void Actor::ChangeImage(const char* newImage)
 	size_t length = strlen(newImage) + 1;
 	image = new char[length];
 	strcpy_s(image, length, newImage);
+}
+
+const char* Actor::Image() const
+{
+	return image;
+}
+
+EColor Actor::Color() const
+{
+	return color;
 }
 
 void Actor::Destroy()

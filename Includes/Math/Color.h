@@ -1,7 +1,7 @@
 #pragma once
 
 // »ö»ó.
-enum class Color : int
+enum class EColor : int
 {
 	Blue = 1,
 	Green = 2,

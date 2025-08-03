@@ -134,7 +134,7 @@ void Level::ProcessAddAndDestroyActors()
 		Utils::SetConsolePosition(actor->position);
 
 		// 콘솔에 빈문자 출력해서 지우기.
-		//for (int ix = 0; ix < actor->width; ++ix)
+		//for (int ix = 0; ix < actor->length; ++ix)
 		//{
 		//	std::cout << " ";
 		//}

@@ -4,6 +4,7 @@
 
 #include "Level/Level.h"
 #include "Utils/Utils.h"
+#include "Actor/Actor.h"
 #include "Input.h"
 #include "Render/ScreenBuffer.h"
 
@@ -146,7 +147,7 @@ void Engine::Run()
 void Engine::WriteToBuffer(
 	const Vector2& position, 
 	const char* image, 
-	Color color, 
+	EColor color, 
 	int sortingOrder)
 {
 	// 문자열 길이.
@@ -171,6 +172,34 @@ void Engine::WriteToBuffer(
 		
 		// 뎊스 기록.
 		imageBuffer->sortingOrderArray[index] = sortingOrder;
+	}
+}
+
+void Engine::WriteToBuffer(const Actor& actor)
+{
+	int startIndex = (actor.Position().y * settings.width) + actor.Position().x;
+	for (int iy = 0; iy < actor.Size().y; ++iy)
+	{
+		for (int ix = 0; ix < actor.Size().x; ++ix)
+		{
+			// 기록할 문자 위치
+			int pos = startIndex +(settings.width*iy) + ix;
+			// 기록할 문자
+			int index = actor.Size().x * iy + ix;
+
+			if (imageBuffer->sortingOrderArray[pos] > actor.SortingOrder())
+			{
+				continue;
+			}
+
+			// 버퍼에 문자/색상 기록.
+			imageBuffer->charInfoArray[pos].Char.AsciiChar = actor.Image()[index];
+			imageBuffer->charInfoArray[pos].Attributes = (WORD)actor.Color();
+
+			// 뎊스 기록.
+			imageBuffer->sortingOrderArray[index] = actor.SortingOrder();
+
+		}
 	}
 }
 

@@ -12,12 +12,17 @@ class Tile : public Actor
 		MAX
 	};
 
+	RTTI_DECLARATIONS(Tile, Actor)
+
 public:	
 	Tile(
 	const char* image = "",
-	Color color = Color::White,
+	EColor color = EColor::White,
 	const Vector2& position = Vector2::Zero
 	);
+
+	virtual void Render() override;
+
 private:
 	ETileState tileState;
 
