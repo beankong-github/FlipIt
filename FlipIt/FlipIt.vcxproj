@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Tile.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="Main.cpp" />

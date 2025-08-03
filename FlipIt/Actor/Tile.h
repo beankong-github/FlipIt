@@ -12,8 +12,12 @@ class Tile : public Actor
 		MAX
 	};
 
-public:
-
+public:	
+	Tile(
+	const char* image = "",
+	Color color = Color::White,
+	const Vector2& position = Vector2::Zero
+	);
 private:
 	ETileState tileState;
 
