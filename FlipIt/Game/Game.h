@@ -12,6 +12,10 @@ public:
 
 	virtual void CleanUp();
 
+	static Game& Get(){ return *dynamic_cast<Game*>(instance); };
+
+	ResourceMgr* ResourceManager() const { return this->resourceManager; }
+
 private:
-	ResourceMgr* ResourceManager;
+	ResourceMgr* resourceManager;
 };

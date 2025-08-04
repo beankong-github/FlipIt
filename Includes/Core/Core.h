@@ -8,6 +8,7 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#include<cassert>
 
 #if BuildEngineDLL
 #define Engine_API __declspec(dllexport)

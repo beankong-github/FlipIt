@@ -1,18 +1,20 @@
 #include "Game.h"
 #include "Level/TestLevel.h"
+#include "Level/GameLevel.h"
 #include "ResourceMgr.h"
 
 Game::Game()
 	:Engine()
 {
-	AddLevel(new TestLevel());
-	ResourceManager = new ResourceMgr();
+	resourceManager = new ResourceMgr();
+
+	AddLevel(new GameLevel("TestMap.txt"));
 }
 
 void Game::CleanUp()
 {
 	Super::CleanUp();
-	SafeDelete(ResourceManager);
+	SafeDelete(resourceManager);
 }
 
 Game::~Game()

@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include <unordered_map>
 #include "Types.h"
+#include "Asset/IAsset.h"
 
-class IAsset;
 class ResourceMgr
 {
 
@@ -21,6 +21,7 @@ public:
 		return newRes;
 	}
 
+	// TODO : EResourceType -> RTTI의 TypeID로 대체
 	static const char* ResourceTypeToString(EResourceType type)
 	{
 		switch (type)
@@ -36,6 +37,9 @@ public:
 			break;
 		}
 	}
+
+	IAsset* GetResource(EResourceType type, const char* name);
+
 
 private:
 	// 리소스 데이터들

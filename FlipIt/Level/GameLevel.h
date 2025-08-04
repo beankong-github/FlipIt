@@ -1,15 +1,29 @@
 #pragma once
 #include "Level/Level.h"
-#include "Actor/Tile.h"
+#include <vector>
 
+class Map;
+class Tile;
 class GameLevel : public Level
 {
 	RTTI_DECLARATIONS(GameLevel, Level)
 
 public:
-	GameLevel();
+	GameLevel(const char* mapName);
 	virtual ~GameLevel();
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float deltaTime) override;
+	virtual void Render() override;
+
+
+private:
+	void InitializeTileMap();
 
 private:
 	// ∏  ∏Æº“Ω∫
+	Map* mapData;
+	// ≈∏¿œ∏ 
+	std::vector<std::vector<Tile*>> tileMap;
+
 };

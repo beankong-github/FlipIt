@@ -17,6 +17,18 @@ private:
 
 	inline virtual EResourceType GetType() { return EResourceType::Map; }
 
+public:
+	// 타일맵의 크기
+	Vector2 MapSize() const;
+
+	const std::vector<ETileState>& operator[](size_t row) const
+	{
+		if(row < initialTileStates.size())
+			return initialTileStates[row];
+
+		return std::vector<ETileState>();
+	}
+
 private:
 	std::vector<std::vector<ETileState>> initialTileStates;
 };

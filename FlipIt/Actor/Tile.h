@@ -14,10 +14,17 @@ public:
 	const Vector2& position = Vector2::Zero
 	);
 
+	Tile(ETileState state, const Vector2& index);
+
 	virtual void Render() override;
 
 private:
 	ETileState tileState;
+	class ImageData* tileImageData;
 
+	// TODO 하드 코딩 개선 
+	const char* frontImageName = "TileFront.txt";
+	const char* backImageName= "TileBack.txt";
+	const char* blockImageName= "TileFront.txt";
 };
 

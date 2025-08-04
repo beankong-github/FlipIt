@@ -1,22 +1,23 @@
-#include "Image.h"
+#include "ImageData.h"
 #include "Map.h"
 
-Image::Image(const char* name)
+ImageData::ImageData(const char* name)
 	: IAsset("Image", name)
 	,buffer(nullptr)
+	, size(Vector2(0,0))
 {
 }
 
-Image::~Image()
+ImageData::~ImageData()
 {
 	SafeDeleteArray(buffer);
 }
 
-void Image::Save()
+void ImageData::Save()
 {
 }
 
-void Image::Load()
+void ImageData::Load()
 {
 	const char* filepath = GetFullAssetPath();
 	FILE* file = nullptr;
@@ -39,6 +40,14 @@ void Image::Load()
 	buffer = new char[fileSize + 1];
 	memset(buffer, 0, fileSize + 1);
 	size_t readSize = fread(buffer, sizeof(char), fileSize, file);
+	
+	for (int i = 0; i < (int)readSize;++i)
+	{
+		if (buffer[i] == '\n')
+			++size.y;
+	}
+	size.y += 1;
+	size.x = readSize / size.y;
 
 	fclose(file);
 }

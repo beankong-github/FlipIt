@@ -1,6 +1,5 @@
 #pragma once
 
-
 enum class ETileState
 {
 	None = -1,

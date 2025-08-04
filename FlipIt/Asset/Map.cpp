@@ -59,15 +59,22 @@ void Map::Load()
 			++i;
 		}
 
-		if (state.empty())
-		{
-			++i;
-			continue;
-		}
+		if (!state.empty())
+			initialTileStates.emplace_back(std::move(state));
 
-		initialTileStates.emplace_back(state);
+		++i;
 	}
 
 	delete[] buffer;
 	fclose(file);
+}
+
+Vector2 Map::MapSize() const
+{
+	Vector2 size(0, 0);
+	size.y = initialTileStates.size();// ¿­ Å©±â
+	if (size.y > 0)
+		size.x = initialTileStates[0].size();
+
+	return size;
 }

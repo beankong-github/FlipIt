@@ -3,8 +3,7 @@
 #include <windows.h>
 #include "Core.h"
 
-#include "Asset/IAsset.h"
-#include "Asset/Image.h"
+#include "Asset/ImageData.h"
 #include "Asset/Map.h"
 
 ResourceMgr::ResourceMgr()
@@ -36,7 +35,7 @@ ResourceMgr::ResourceMgr()
                 switch (static_cast<EResourceType>(type))
                 {
                 case EResourceType::Image:
-                    newResource = CreateResource<Image>(findFileData.cFileName);
+                    newResource = CreateResource<ImageData>(findFileData.cFileName);
                     break;
                 case EResourceType::Map:
                     // TODO Map 리소스 추가
@@ -45,8 +44,10 @@ ResourceMgr::ResourceMgr()
                 }
 
                 // 리소스 해시 테이블에 파일 이름과 파일 저장
-                if(newResource != nullptr)
-                    resourceTableArray[type].emplace(std::make_pair(findFileData.cFileName, newResource));
+                if (newResource != nullptr)
+                {
+                    resourceTableArray[type].emplace(std::make_pair(findFileData.cFileName, std::move(newResource)));
+                }
             }
         } while (FindNextFile(hFind, &findFileData) != 0);
 
@@ -61,4 +62,12 @@ ResourceMgr::~ResourceMgr()
     {
         SafeDeleteHashTable<const char*, IAsset*>(resourceTableArray[i]);
     }
+}
+
+IAsset* ResourceMgr::GetResource(EResourceType type, const char* name)
+{
+    if (type == EResourceType::None || type == EResourceType::MAX)
+        return nullptr;
+
+    return  resourceTableArray[(int)type][name];
 }
