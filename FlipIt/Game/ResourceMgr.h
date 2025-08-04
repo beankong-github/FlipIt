@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <unordered_map>
+#include <string>
 #include "Types.h"
 #include "Asset/IAsset.h"
 
@@ -43,6 +44,6 @@ public:
 
 private:
 	// 리소스 데이터들
-	std::unordered_map<const char*, IAsset*> resourceTableArray[(int)EResourceType::MAX];
+	std::unordered_map<std::string, IAsset*> resourceTableArray[(int)EResourceType::MAX];
 };
 

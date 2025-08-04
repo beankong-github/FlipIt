@@ -197,7 +197,7 @@ void Engine::WriteToBuffer(const Actor& actor)
 			imageBuffer->charInfoArray[pos].Attributes = (WORD)actor.Color();
 
 			// ‰X½º ±â·Ï.
-			imageBuffer->sortingOrderArray[index] = actor.SortingOrder();
+			imageBuffer->sortingOrderArray[pos] = actor.SortingOrder();
 
 		}
 	}

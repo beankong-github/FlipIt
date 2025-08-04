@@ -37,17 +37,27 @@ void ImageData::Load()
 	rewind(file);
 
 	// 파일 데이터를 버퍼에 저장
+	char* tmp = new char[fileSize + 1];
+	memset(tmp, 0, fileSize + 1);
 	buffer = new char[fileSize + 1];
 	memset(buffer, 0, fileSize + 1);
-	size_t readSize = fread(buffer, sizeof(char), fileSize, file);
+	size_t readSize = fread(tmp, sizeof(char), fileSize, file);
+	fclose(file);
 	
-	for (int i = 0; i < (int)readSize;++i)
+	int bufferIndex = 0;
+	for (int i = 0; i < (int)readSize; ++i)
 	{
-		if (buffer[i] == '\n')
+		if (tmp[i] == '\n')
+		{
 			++size.y;
+			continue;
+		}
+		
+		buffer[bufferIndex] = tmp[i];
+		++bufferIndex;
 	}
+
 	size.y += 1;
 	size.x = readSize / size.y;
 
-	fclose(file);
 }

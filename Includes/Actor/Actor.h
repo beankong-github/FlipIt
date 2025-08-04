@@ -16,7 +16,8 @@ public:
 	Actor(
 		const char* image = "",
 		EColor color = EColor::White,
-		const Vector2& position = Vector2::Zero
+		const Vector2& position = Vector2::Zero,
+		const Vector2& size = Vector2::Zero
 	);
 	virtual ~Actor();
 
@@ -37,6 +38,7 @@ public:
 	// 위치 설정/값 읽는 함수.
 	void SetPosition(const Vector2& newPosition);
 	inline Vector2 Position() const;
+	void SetSize(const Vector2& newSize);
 	inline Vector2 Size() const;
 
 	// 문자열 길이 반환.

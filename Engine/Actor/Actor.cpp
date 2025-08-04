@@ -6,34 +6,36 @@
 #include <Windows.h>
 #include <iostream>
 
-Actor::Actor(const char* image, EColor color, const Vector2& position)
-	: color(color), position(position)
+Actor::Actor(const char* image, EColor color, const Vector2& position, const Vector2& size)
+	: color(color), position(position), size(size)
 {
 	// 문자열 길이.
 	length = (int)strlen(image);
-	// 메모리 할당.
-	this->image = new char[length + 1];
-	// 문자열 복사.
-	strcpy_s(this->image, length + 1, image);
-	
+	if (length > 0)
+	{
+		// 메모리 할당.
+		this->image = new char[length + 1];
+		// 문자열 복사.
+		strcpy_s(this->image, length + 1, image);
+	}
 	// image 크기 계산
-	int count = 0;	// '\n' 
-	int index = 0;	// 문자열 인덱스
+	//int count = 0;	// '\n' 
+	//int index = 0;	// 문자열 인덱스
 	
 	// '\n'기준 문자열 행 개수 계산
 	// image의 행들은 모두 같은 길이라고 가정한다.
 	// 그렇지 않으면 랜더링 시 문제가 생길 수 있음.
-	while (*(image + index))
-	{
-		if (*(image + index) == '\n')
-		{
-			++count;
-		}
-		++index;
-	}
+	//while (*(image + index))
+	//{
+	//	if (*(image + index) == '\n')
+	//	{
+	//		++count;
+	//	}
+	//	++index;
+	//}
 
-	size.y = count+1;
-	size.x = (length - count + 1) / size.y; // '\n' 을 제외한 문자열 갯수를 행의 갯수만큼 나눈다.
+	//size.y = count+1;
+	//size.x = (length - count + 1) / size.y; // '\n' 을 제외한 문자열 갯수를 행의 갯수만큼 나눈다.
 
 }
 
@@ -120,6 +122,11 @@ void Actor::SetPosition(const Vector2& newPosition)
 Vector2 Actor::Position() const
 {
 	return position;
+}
+
+void Actor::SetSize(const Vector2& newSize)
+{
+	size = newSize;
 }
 
 Vector2 Actor::Size() const

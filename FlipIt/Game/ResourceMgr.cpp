@@ -46,7 +46,7 @@ ResourceMgr::ResourceMgr()
                 // 리소스 해시 테이블에 파일 이름과 파일 저장
                 if (newResource != nullptr)
                 {
-                    resourceTableArray[type].emplace(std::make_pair(findFileData.cFileName, std::move(newResource)));
+                    resourceTableArray[type].emplace(std::make_pair(std::string(findFileData.cFileName), std::move(newResource)));
                 }
             }
         } while (FindNextFile(hFind, &findFileData) != 0);
@@ -60,7 +60,7 @@ ResourceMgr::~ResourceMgr()
     // 리소스 메모리 해제
     for (int i = 0; i < (int)EResourceType::MAX; ++i)
     {
-        SafeDeleteHashTable<const char*, IAsset*>(resourceTableArray[i]);
+        SafeDeleteHashTable<std::string, IAsset*>(resourceTableArray[i]);
     }
 }
 
