@@ -9,5 +9,6 @@ Tile::Tile(const char* image, EColor color, const Vector2& position)
 
 void Tile::Render()
 {
+	// 타일 그리기
 	Engine::Get().WriteToBuffer(*this);
 }

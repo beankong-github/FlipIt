@@ -1,16 +1,9 @@
 #pragma once
 #include "Actor/Actor.h"
+#include "Game/Types.h"
 
 class Tile : public Actor
 {
-	enum ETileState
-	{
-		None = -1,
-		Player1,
-		Player2,
-		Block,
-		MAX
-	};
 
 	RTTI_DECLARATIONS(Tile, Actor)
 
