@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 #include "Types.h"
 
@@ -12,7 +12,7 @@ public:
 
 
 private:
-	// ¸®¼Ò½º µ¥ÀÌÅÍµé
+	// ë¦¬ì†ŒìŠ¤ ë°ì´í„°ë“¤
 	std::unordered_map<const char*, IAsset*> Resources[(int)EResourceType::MAX];
 };
 
