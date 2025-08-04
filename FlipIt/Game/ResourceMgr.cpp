@@ -12,14 +12,9 @@ ResourceMgr::ResourceMgr()
 	// Asset 파일 로드
     for (int type = 0; type < (int)EResourceType::MAX; ++type)
     {
-        // TODO 에셋 로드
-        // 타입 특정 경로의 파일들을 모두 읽는다.
-        // 해당 파일을 기반으로 에셋 클래스를 생성한다.
-        // 에셋 클래스 -> Load
-        // resourceTableArray에 저장한다.
-
         // 타입에 따라 타입 경로 찾기
         static char path[100];
+        // WARN ! 리소스는 txt 타입만 읽어 온다. (상황에 따라 수정 필요)
         sprintf_s(path, sizeof(path), "..\\Assets\\%s\\*.txt", ResourceTypeToString(static_cast<EResourceType>(type)));
 
         // 경로에 첫번째 파일 정보 가져오기
@@ -33,10 +28,11 @@ ResourceMgr::ResourceMgr()
         }
 
         do {
-            // 리소스 해시 테이블에 파일 이름과 파일 저장
             if (findFileData.cFileName)
             {
                 IAsset* newResource = nullptr;
+
+                // 타입 별로 리소스 객체 생성
                 switch (static_cast<EResourceType>(type))
                 {
                 case EResourceType::Image:
@@ -44,9 +40,11 @@ ResourceMgr::ResourceMgr()
                     break;
                 case EResourceType::Map:
                     // TODO Map 리소스 추가
-                    //newResource = CreateResource<Map>(findFileData.cFileName);
+                    newResource = CreateResource<Map>(findFileData.cFileName);
                     break;
                 }
+
+                // 리소스 해시 테이블에 파일 이름과 파일 저장
                 if(newResource != nullptr)
                     resourceTableArray[type].emplace(std::make_pair(findFileData.cFileName, newResource));
             }

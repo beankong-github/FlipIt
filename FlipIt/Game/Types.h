@@ -1,10 +1,11 @@
 #pragma once
 
+
 enum class ETileState
 {
 	None = -1,
-	Player1,
-	Player2,
+	Front,
+	Back,
 	Block,
 	MAX
 };

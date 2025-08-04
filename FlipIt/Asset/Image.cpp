@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "Map.h"
 
 Image::Image(const char* name)
 	: IAsset("Image", name)
@@ -23,7 +24,7 @@ void Image::Load()
 
 	if (file == nullptr)
 	{
-		__debugbreak;
+		//__debugbreak;
 		std::cout << "맵 파일 읽기 실패. : " << filepath << '\n';
 		return;
 	}

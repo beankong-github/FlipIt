@@ -43,6 +43,19 @@ void SafeDeleteArray(T*& target)
 	}
 }
 
+#include <vector>
+template<typename T>
+void SafeDeleteVector(std::vector<T>& vector)
+{
+	typename std::vector<T>::iterator iter = vector.begin();
+	for (; iter != vector.end(); ++iter)
+	{
+		SafeDelete(*iter);
+	}
+	vector.clear();
+}
+
+
 #include <map>
 template<typename T1, typename T2>
 void SafeDeleteMap(std::map<T1, T2>& map)
