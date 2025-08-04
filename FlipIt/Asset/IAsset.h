@@ -1,9 +1,10 @@
 #pragma once
 #include "Core.h"
+#include "RTTI.h"
 #include "Game/Types.h"
 #include <iostream>
 
-class IAsset
+class IAsset : public RTTI
 {
 public:
 	IAsset(const char* type, const char* name)
@@ -21,10 +22,12 @@ public:
 
 public:
 	// 에셋의 전체 경로를 반환한다.
+	// WARN 에셋의 확장자는 현재 .txt로 고정되어 있다.
+	// TODO  만약 에셋 별로 확장자가  달라질 경우 GetFullAssetPath를 오버라이드하여 재정의 해야 한다.
 	const char* GetFullAssetPath() const
 	{
 		static /*thread_local*/ char assetFullPath[255]; // 멀티 스레스 사용 시, thread_local 사용
-		snprintf(assetFullPath, sizeof(assetFullPath), "%s%s/%s.txt", assetFilePath, type, name);
+		snprintf(assetFullPath, sizeof(assetFullPath), "%s%s/%s", assetFilePath, type, name);
 		return assetFullPath;
 	}
 

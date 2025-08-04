@@ -56,5 +56,8 @@
     <ClInclude Include="Asset\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Asset\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 
 Image::Image(const char* name)
 	: IAsset("Image", name)
+	,buffer(nullptr)
 {
 }
 

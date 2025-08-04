@@ -16,7 +16,7 @@
 #endif
 
 #ifdef _DEBUG
-//#define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+	//#define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
 #define new new
 #else
 #define new new
@@ -41,4 +41,28 @@ void SafeDeleteArray(T*& target)
 		delete[] target;
 		target = nullptr;
 	}
+}
+
+#include <map>
+template<typename T1, typename T2>
+void SafeDeleteMap(std::map<T1, T2>& map)
+{
+	typename std::map<T1, T2>::iterator iter = map.begin();
+	for (; iter != map.end(); ++iter)
+	{
+		SafeDelete(iter->second);
+	}
+	map.clear();
+}
+
+#include <unordered_map>
+template<typename T1, typename T2>
+void SafeDeleteHashTable(std::unordered_map<T1, T2>& hashTable)
+{
+	typename std::unordered_map<T1, T2>::iterator iter = hashTable.begin();
+	for (; iter != hashTable.end(); ++iter)
+	{
+		SafeDelete(iter->second);
+	}
+	hashTable.clear();
 }

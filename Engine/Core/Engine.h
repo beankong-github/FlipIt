@@ -48,7 +48,7 @@ struct ImageBuffer
 
 class Level;
 class ScreenBuffer;
-class Engine_API Engine
+class Engine_API Engine : public RTTI
 {
 public:
 
