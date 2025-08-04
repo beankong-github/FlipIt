@@ -1,4 +1,4 @@
-#include "Tile.h"
+Ôªø#include "Tile.h"
 #include "Engine.h"
 
 Tile::Tile(const char* image, EColor color, const Vector2& position)
@@ -9,6 +9,6 @@ Tile::Tile(const char* image, EColor color, const Vector2& position)
 
 void Tile::Render()
 {
-	// ≈∏¿œ ±◊∏Æ±‚
+	// ÌÉÄÏùº Í∑∏Î¶¨Í∏∞
 	Engine::Get().WriteToBuffer(*this);
 }
