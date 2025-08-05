@@ -1,3 +1,4 @@
-width = 500
-height = 500
+width = 150
+height = 40
 framerate = 120
+fontsize = 14

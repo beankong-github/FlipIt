@@ -15,10 +15,10 @@ class ScreenBuffer
 
 public:
 	// 새로운 버퍼를 생성할 때 사용할 생성자.
-	ScreenBuffer(const Vector2& screenSize);
+	ScreenBuffer(const Vector2& screenSize, int fontSize);
 
 	// conslle에 전달된 핸들을 사용해 콘솔 버퍼 생성.
-	ScreenBuffer(HANDLE console, const Vector2& screenSize);
+	ScreenBuffer(HANDLE console, const Vector2& screenSize, int fontSize);
 
 	// 소멸자.
 	~ScreenBuffer();
@@ -32,7 +32,7 @@ public:
 private:
 
 	// 콘솔 핸들.
-	HANDLE buffer = nullptr;
+	HANDLE consoleBuffer = nullptr;
 
 	// 콘솔 화면 크기.
 	Vector2 screenSize;
