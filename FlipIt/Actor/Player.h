@@ -38,7 +38,7 @@ private:
 	Vector2 positionIndex;
 
 	// 캐릭터 방향 - 타일맵 기준 
-	// 상(0,1) / 하(0,-1) / 좌(-1, 0) / 우(1,0
+	// 상(0,-1) / 하(0,1) / 좌(-1, 0) / 우(1,0
 	static const Vector2 directions[(int)EDirection::MAX];
 	EDirection curDir;
 

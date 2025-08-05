@@ -7,7 +7,7 @@
 #include <cassert>
 
 
-const Vector2 Player::directions[(int)EDirection::MAX] = { Vector2(0,1), Vector2(0,-1), Vector2(-1,0), Vector2(0,1) };
+const Vector2 Player::directions[(int)EDirection::MAX] = { Vector2(0,-1), Vector2(0,1), Vector2(-1,0), Vector2(1,0) };
 
 Player::Player(const char* image, Vector2 startPosIndex, EDirection startDir, ETileState targetTile)
 	:targetTile(targetTile), positionIndex(startPosIndex), curDir(startDir)
@@ -52,6 +52,29 @@ void Player::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
+	// tmp 입력처리 
+	if (Input::Get().GetKeyDown(VK_ESCAPE))
+	{
+		QuitGame();
+		return;
+	}
+
+	if (Input::Get().GetKeyDown(VK_RIGHT))
+	{
+		Move(EDirection::Right);
+	}
+	if (Input::Get().GetKeyDown(VK_LEFT))
+	{
+		Move(EDirection::Left);
+	}
+	if (Input::Get().GetKeyDown(VK_UP))
+	{
+		Move(EDirection::Up);
+	}
+	if (Input::Get().GetKeyDown(VK_DOWN))
+	{
+		Move(EDirection::Down);
+	}
 }
 
 void Player::Render()
@@ -103,7 +126,7 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 		positionIndex = newPosition;
 	}
 
-	// 화면상의 position 계산하기
+	// 화면상의 position 계산하기(타일 중앙에 오도록)
 	// 타일 포지션 + (타일 크기 - 액터 크기) / 2
 	Vector2 offset = gameLevel->GetTileSize(positionIndex) - imageData->Size();
 	offset.x = offset.x < 0 ? 0 : offset.x;
