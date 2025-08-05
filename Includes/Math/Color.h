@@ -7,7 +7,8 @@ enum class EColor : int
 	Blue = 1,
 	Green = 2,
 	Red = 4,
-	LightGray = 7,
+	LightGray = 7, 
+	DarkGray = 8,
 	White = Red | Green | Blue,
 	Intensity = 8,
 };

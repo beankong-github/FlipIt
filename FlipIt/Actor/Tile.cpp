@@ -27,7 +27,7 @@ Tile::Tile(ETileState state, const Vector2& index)
 	case ETileState::Back:
 	{
 		tileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, backImageName));
-		backgroundColor = EColor::LightGray;
+		backgroundColor = EColor::White;
 	}
 		break;
 	}

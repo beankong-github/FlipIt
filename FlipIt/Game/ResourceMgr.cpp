@@ -34,7 +34,7 @@ ResourceMgr::ResourceMgr()
                 // 타입 별로 리소스 객체 생성
                 switch (static_cast<EResourceType>(type))
                 {
-                case EResourceType::Image:
+                case EResourceType::Image: 
                     newResource = CreateResource<ImageData>(findFileData.cFileName);
                     break;
                 case EResourceType::Map:

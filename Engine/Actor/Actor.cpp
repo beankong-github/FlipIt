@@ -18,25 +18,6 @@ Actor::Actor(const char* image, EColor color, EColor backgroundColor, const Vect
 		// 문자열 복사.
 		strcpy_s(this->image, length + 1, image);
 	}
-	// image 크기 계산
-	//int count = 0;	// '\n' 
-	//int index = 0;	// 문자열 인덱스
-	
-	// '\n'기준 문자열 행 개수 계산
-	// image의 행들은 모두 같은 길이라고 가정한다.
-	// 그렇지 않으면 랜더링 시 문제가 생길 수 있음.
-	//while (*(image + index))
-	//{
-	//	if (*(image + index) == '\n')
-	//	{
-	//		++count;
-	//	}
-	//	++index;
-	//}
-
-	//size.y = count+1;
-	//size.x = (length - count + 1) / size.y; // '\n' 을 제외한 문자열 갯수를 행의 갯수만큼 나눈다.
-
 }
 
 Actor::~Actor()

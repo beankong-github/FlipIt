@@ -60,4 +60,5 @@ void ImageData::Load()
 	size.y += 1;
 	size.x = readSize / size.y;
 
+	delete[] tmp;
 }

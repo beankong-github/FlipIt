@@ -167,6 +167,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\Tile.cpp" />
     <ClCompile Include="Asset\ImageData.cpp" />
     <ClCompile Include="Asset\MapData.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\Tile.h" />
     <ClInclude Include="Asset\ImageData.h" />
     <ClInclude Include="Asset\MapData.h" />
