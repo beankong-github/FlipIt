@@ -41,7 +41,7 @@ private:
 	const EColor frontBackgroundColor = EColor::None;
 	const EColor backColor = EColor::None;
 	const EColor backBackgroundColor = EColor::White;
-	static constexpr  const char* frontImageName = "TileFront.txt";
+	static constexpr  const char* frontImageName = "Tile1.txt";
 	static constexpr const char* backImageName= "TileBack.txt";
 	static constexpr const char* blockImageName= "TileFront.txt";
 };

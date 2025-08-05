@@ -16,8 +16,8 @@ GameLevel::GameLevel(const char* mapName)
 	
 	InitializeTileMap();
 
-	//AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
-	AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
+	AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
+	//AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
 }
 
 GameLevel::~GameLevel()

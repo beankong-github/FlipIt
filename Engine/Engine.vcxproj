@@ -101,7 +101,8 @@
     <PreBuildEvent>
       <Command>xcopy *.h ..\Includes /y /e 
 
-xcopy ..\Settings $(OutDir)..\Settings\ /y /e</Command>
+xcopy ..\Settings $(OutDir)..\Settings\ /y /e
+xcopy ..\Assets $(OutDir)..\Assets\ /y /e</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy $(OutDir)\Engine.lib ..\Lib\Engine\ /y
@@ -147,7 +148,8 @@ xcopy $(OutDir)\Engine.dll ..\Lib\Engine\ /y</Command>
     <PreBuildEvent>
       <Command>xcopy *.h ..\Includes /y /e 
 
-xcopy ..\Settings $(OutDir)..\Settings\ /y /e</Command>
+xcopy ..\Settings $(OutDir)..\Settings\ /y /e
+xcopy ..\Assets $(OutDir)..\Assets\ /y /e</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy $(OutDir)\Engine.lib ..\Lib\Engine\ /y
