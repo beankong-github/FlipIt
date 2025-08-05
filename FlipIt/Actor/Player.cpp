@@ -10,7 +10,7 @@
 const Vector2 Player::directions[(int)EDirection::MAX] = { Vector2(0,-1), Vector2(0,1), Vector2(-1,0), Vector2(1,0) };
 
 Player::Player(const char* image, Vector2 startPosIndex, EDirection startDir, ETileState targetTile)
-	:targetTile(targetTile), positionIndex(startPosIndex), curDir(startDir)
+	:playerTileState(targetTile), positionIndex(startPosIndex), curDir(startDir)
 {
 	// 이미지 데이터 가져오기
 	imageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, image));
@@ -52,13 +52,14 @@ void Player::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
-	// tmp 입력처리 
+	// tmp 종료 처리. 종료처리는 level에서 한다.
 	if (Input::Get().GetKeyDown(VK_ESCAPE))
 	{
 		QuitGame();
 		return;
 	}
 
+	// tmp 입력처리 
 	if (Input::Get().GetKeyDown(VK_RIGHT))
 	{
 		Move(EDirection::Right);
@@ -84,6 +85,7 @@ void Player::Render()
 
 inline const char* Player::Image() const
 {
+	// imageData가 있는 경우는 Buffer를 반환한다.
 	if(imageData != nullptr)
 		return imageData->Buffer();
 	return image;
@@ -101,12 +103,6 @@ void Player::Move(EDirection moveDir)
 
 void Player::SetPositionOnTile(Vector2 newPosition)
 {
-	// TODO  가능한 포지션인지 확인해야함
-	// 
-	// 1. 새로운 위치가 타일 범위 내인지	
-	// 2. 타입 확인하기 (Block 혹은 상대 타일이면 이동할 수 없다)
-
-
 	GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
 	// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
 	assert(gameLevel);
@@ -120,10 +116,16 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 
 	// 2. 이동할 위치의 타일 확인하기
 	ETileState tileState = gameLevel->GetTileState(newPosition);
-	if (tileState == targetTile)
+	if (tileState == playerTileState)
 	{
 		// 이동!
 		positionIndex = newPosition;
+	}
+	// 만약 이동하려고 했던 타일이 상대 타일이었다면 선택한다.
+	else if (tileState == REVERSE(playerTileState))
+	{
+		SelectTile(newPosition);
+		return;
 	}
 
 	// 화면상의 position 계산하기(타일 중앙에 오도록)
@@ -135,4 +137,14 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 	position = gameLevel->GetTilePos(positionIndex) + (offset / 2);
 
 
+}
+
+void Player::SelectTile(Vector2 tile)
+{
+	GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
+	// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
+	assert(gameLevel);
+
+	// tmp 바로 뒤집기
+	gameLevel->FlipTile(tile);
 }

@@ -20,15 +20,27 @@ public:
 
 	virtual void Render() override;
 
-	virtual  inline const char* Image() const override;
+	void Flip(ETileState state = ETileState::Front);
 
+	virtual  inline const char* Image() const override;
 	inline ETileState TileState() const { return tileState; }
+
+	// 인덱스 반환
+	Vector2 Index() const { return index; };
 
 private:
 	ETileState tileState;
-	class ImageData* tileImageData;
+	class ImageData* curTileImageData;
+	Vector2 index;
 
-	// TODO 하드 코딩 개선 
+	// 꼴보기 싫다 진심
+	// TODO 하드 코딩 개선 ===================
+	class ImageData* frontTileImageData;
+	class ImageData* backTileImageData;
+	const EColor frontColor = EColor::White;
+	const EColor frontBackgroundColor = EColor::None;
+	const EColor backColor = EColor::None;
+	const EColor backBackgroundColor = EColor::White;
 	static constexpr  const char* frontImageName = "TileFront.txt";
 	static constexpr const char* backImageName= "TileBack.txt";
 	static constexpr const char* blockImageName= "TileFront.txt";

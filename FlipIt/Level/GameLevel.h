@@ -17,16 +17,20 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 	virtual void Render() override;
+	
 
+	// Tile 
 	const std::vector<std::vector<Tile*>> TileMap() const { return tileMap; };
+	const Tile& GetTile(Vector2 index) const;
 	Vector2 GetTilMapSize() const;
 	Vector2 GetTileSize(Vector2 index) const;
 	Vector2 GetTilePos(Vector2 index) const;
 	ETileState GetTileState(Vector2 index) const;
+	bool FlipTile(Vector2 index);
 
 private:
 	void InitializeTileMap();
-	Tile* GetTile(Vector2 index) const;
+	Tile* GetTileInternal(Vector2 index) const;
 
 private:
 	// ¸Ê ¸®¼Ò½º

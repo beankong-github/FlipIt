@@ -16,7 +16,8 @@ GameLevel::GameLevel(const char* mapName)
 	
 	InitializeTileMap();
 
-	AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
+	//AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
+	AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
 }
 
 GameLevel::~GameLevel()
@@ -38,6 +39,12 @@ void GameLevel::Render()
 	Super::Render();
 }
 
+const Tile& GameLevel::GetTile(Vector2 index) const
+{
+	// Tile에 const를 붙여 반환한다.
+	return *const_cast<Tile*>(GetTileInternal(index));
+}
+
 Vector2 GameLevel::GetTilMapSize() const
 {
 	if (mapData != nullptr)
@@ -49,7 +56,7 @@ Vector2 GameLevel::GetTilMapSize() const
 
 Vector2 GameLevel::GetTileSize(Vector2 index) const
 {
-	const Tile* tile = GetTile(index);
+	const Tile* tile = GetTileInternal(index);
 
 	if (tile != nullptr)
 		return tile->Size();
@@ -59,7 +66,7 @@ Vector2 GameLevel::GetTileSize(Vector2 index) const
 
 Vector2 GameLevel::GetTilePos(Vector2 index) const
 {
-	const Tile* tile = GetTile(index);
+	const Tile* tile = GetTileInternal(index);
 
 	if (tile != nullptr)
 		return tile->Position();
@@ -69,12 +76,27 @@ Vector2 GameLevel::GetTilePos(Vector2 index) const
 
 ETileState GameLevel::GetTileState(Vector2 index) const
 {
-	const Tile* tile= GetTile(index);
+	const Tile* tile= GetTileInternal(index);
 
 	if (tile != nullptr)
 		return tile->TileState();
 
 	return ETileState::None;
+}
+
+bool GameLevel::FlipTile(Vector2 index)
+{
+	// TODO 타일을 뒤집기 전에 조건 확인
+	// 아이템이 있다거나
+	// 시간이 다됐거나
+	// 게임이 종료될 예정이라던가 -> 상관 없을듯?
+
+
+	Tile* tile = GetTileInternal(index);
+	if (tile != nullptr)
+		tile->Flip(REVERSE(tile->TileState()));
+	
+	return false;
 }
 
 void GameLevel::InitializeTileMap()
@@ -99,9 +121,10 @@ void GameLevel::InitializeTileMap()
 	}
 }
 
-Tile* GameLevel::GetTile(Vector2 index) const
+Tile* GameLevel::GetTileInternal(Vector2 index) const
 {
-	if (index.x >= GetTilMapSize().x || index.y >= GetTilMapSize().y)
+	if (index.x < 0 || index.x >= GetTilMapSize().x 
+		|| index.y < 0||index.y >= GetTilMapSize().y)
 		return nullptr;
 
 	return tileMap[index.y][index.x];

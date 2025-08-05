@@ -178,6 +178,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Outliner.h" />
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\Tile.h" />
     <ClInclude Include="Asset\ImageData.h" />

@@ -1,5 +1,7 @@
 #pragma once
 
+#define REVERSE(state) (ETileState)!(bool)(state)
+
 enum class ETileState
 {
 	None = -1,

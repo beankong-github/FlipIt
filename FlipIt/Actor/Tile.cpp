@@ -8,32 +8,22 @@
 Tile::Tile(const char* image, EColor color, EColor backgroundColor, const Vector2& position, const Vector2& size) 
 	:Actor(image, color, backgroundColor, position, size)
 	, tileState(ETileState::None)
-	, tileImageData(nullptr)
+	, curTileImageData(nullptr)
 {
 }
 
 Tile::Tile(ETileState state, const Vector2& index)
 	: tileState(state)
-	, tileImageData(nullptr)
+	, curTileImageData(nullptr)
+	, index(index)
 {
-	switch (state)
-	{
-	case ETileState::Front:
-	{
-		tileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, frontImageName));
-		color = EColor::White;
-	}
-		break;
-	case ETileState::Back:
-	{
-		tileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, backImageName));
-		backgroundColor = EColor::White;
-	}
-		break;
-	}
+	frontTileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, frontImageName));
+	backTileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, backImageName));
+	
+	Flip(state);
 
 	// 타일 이미지가 없으면 안대..!
-	assert(tileImageData != nullptr);
+	assert(curTileImageData != nullptr);
 
 	// 이미지 복사
 	//// 문자열 길이.
@@ -45,10 +35,10 @@ Tile::Tile(ETileState state, const Vector2& index)
 
 
 	Vector2 pos(0, 0);
-	pos.x = tileImageData->Size().x * index.x;
-	pos.y = tileImageData->Size().y * index.y;
+	pos.x = curTileImageData->Size().x * index.x;
+	pos.y = curTileImageData->Size().y * index.y;
 	SetPosition(pos);
-	SetSize(tileImageData->Size());
+	SetSize(curTileImageData->Size());
 
 }
 
@@ -58,10 +48,31 @@ void Tile::Render()
 	Engine::Get().WriteToBuffer(*this);
 }
 
+void Tile::Flip(ETileState state)
+{
+	if (!(state == ETileState::Front || state == ETileState::Back))
+		return;
+
+	tileState = state;
+
+	if(tileState == ETileState::Front)
+	{
+		curTileImageData = frontTileImageData;
+		color = frontColor;
+		backgroundColor = frontBackgroundColor;
+	}
+	else
+	{
+		curTileImageData = backTileImageData;
+		color = backColor;
+		backgroundColor = backBackgroundColor;
+	}
+}
+
 inline const char* Tile::Image() const
 {
-	if (tileImageData != nullptr)
-		return tileImageData->Buffer();
+	if (curTileImageData != nullptr)
+		return curTileImageData->Buffer();
 
 	return image;
 }
