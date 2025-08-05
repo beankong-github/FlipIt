@@ -55,4 +55,5 @@ private:
 	Vector2 selectedTileIndex;
 
 	// 아웃라이너
+	class Outliner* SelectableTileOutliner = nullptr;
 };

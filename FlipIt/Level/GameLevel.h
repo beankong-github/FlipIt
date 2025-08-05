@@ -1,6 +1,7 @@
 #pragma once
 #include "Level/Level.h"
 #include "Math/Vector2.h"
+#include "Math/Color.h"
 #include "Game/Types.h"
 #include <vector>
 
@@ -24,9 +25,10 @@ public:
 	const Tile& GetTile(Vector2 index) const;
 	Vector2 GetTilMapSize() const;
 	Vector2 GetTileSize(Vector2 index) const;
-	Vector2 GetTilePos(Vector2 index) const;
+	Vector2 GetTileConsolePos(Vector2 index) const;
 	ETileState GetTileState(Vector2 index) const;
-	bool FlipTile(Vector2 index);
+	EColor GetTileBackgroundColor(Vector2 index) const;
+	bool FlipTile(Vector2 index, ETileState state);
 
 private:
 	void InitializeTileMap();

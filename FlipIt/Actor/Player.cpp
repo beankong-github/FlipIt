@@ -3,6 +3,7 @@
 #include "Game/ResourceMgr.h"
 #include "Asset/ImageData.h"
 #include "Level/GameLevel.h"
+#include "Actor/Outliner.h"
 #include "Engine.h"
 #include <cassert>
 
@@ -76,6 +77,21 @@ void Player::Tick(float deltaTime)
 	{
 		Move(EDirection::Down);
 	}
+
+	if (SelectableTileOutliner != nullptr)
+	{
+		if (SelectableTileOutliner->IsActive() && Input::Get().GetKeyDown(VK_SPACE))
+		{
+ 			GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
+			// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
+			assert(gameLevel);
+
+			if (gameLevel->FlipTile(selectedTileIndex, playerTileState))
+			{
+				SelectableTileOutliner->DeactivateOutliner();
+			}
+		}
+	}
 }
 
 void Player::Render()
@@ -93,9 +109,17 @@ inline const char* Player::Image() const
 
 void Player::Move(EDirection moveDir)
 {
+	// 기존에 선택되어 있던 타일이 있다면 선택을 해제한다.
+	if (SelectableTileOutliner != nullptr && SelectableTileOutliner->IsActive())
+	{
+		SelectableTileOutliner->DeactivateOutliner();
+	}
+
 	// 방향이 유효하지 않는 경우 이동하지 않는다
 	if (moveDir == EDirection::None || moveDir == EDirection::MAX)
 		return;
+
+
 
 	// 특정 방향으로 이동한다.
 	SetPositionOnTile(positionIndex + directions[(int)moveDir]);
@@ -116,27 +140,27 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 
 	// 2. 이동할 위치의 타일 확인하기
 	ETileState tileState = gameLevel->GetTileState(newPosition);
-	if (tileState == playerTileState)
-	{
-		// 이동!
-		positionIndex = newPosition;
-	}
 	// 만약 이동하려고 했던 타일이 상대 타일이었다면 선택한다.
-	else if (tileState == REVERSE(playerTileState))
+	if(tileState == REVERSE(playerTileState))
 	{
 		SelectTile(newPosition);
 		return;
 	}
 
-	// 화면상의 position 계산하기(타일 중앙에 오도록)
-	// 타일 포지션 + (타일 크기 - 액터 크기) / 2
-	Vector2 offset = gameLevel->GetTileSize(positionIndex) - imageData->Size();
-	offset.x = offset.x < 0 ? 0 : offset.x;
-	offset.y = offset.y < 0 ? 0 : offset.y;
-
-	position = gameLevel->GetTilePos(positionIndex) + (offset / 2);
+	if (tileState == playerTileState)
+	{
+		// 이동!
+		positionIndex = newPosition;
 
 
+		// 화면상의 position 계산하기(타일 중앙에 오도록)
+		// 타일 포지션 + (타일 크기 - 액터 크기) / 2
+		Vector2 offset = gameLevel->GetTileSize(positionIndex) - imageData->Size();
+		offset.x = offset.x < 0 ? 0 : offset.x;
+		offset.y = offset.y < 0 ? 0 : offset.y;
+
+		position = gameLevel->GetTileConsolePos(positionIndex) + (offset / 2);
+	}
 }
 
 void Player::SelectTile(Vector2 tile)
@@ -145,6 +169,16 @@ void Player::SelectTile(Vector2 tile)
 	// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
 	assert(gameLevel);
 
-	// tmp 바로 뒤집기
-	gameLevel->FlipTile(tile);
+	selectedTileIndex = tile;
+
+	// 아웃라이너가 없으면 생성한다
+	if (SelectableTileOutliner == nullptr)
+	{
+		// tmp 아웃라이더 데이터 값 바로 전달
+		SelectableTileOutliner = new Outliner("Outliner.txt");
+		assert(SelectableTileOutliner);
+		owner->AddActor(SelectableTileOutliner);
+	}
+	SelectableTileOutliner->ActivateOutliner(gameLevel->GetTileConsolePos(selectedTileIndex), EColor::None, color);
+
 }

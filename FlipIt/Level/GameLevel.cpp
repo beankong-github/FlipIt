@@ -64,7 +64,7 @@ Vector2 GameLevel::GetTileSize(Vector2 index) const
 	return Vector2();
 }
 
-Vector2 GameLevel::GetTilePos(Vector2 index) const
+Vector2 GameLevel::GetTileConsolePos(Vector2 index) const
 {
 	const Tile* tile = GetTileInternal(index);
 
@@ -84,7 +84,17 @@ ETileState GameLevel::GetTileState(Vector2 index) const
 	return ETileState::None;
 }
 
-bool GameLevel::FlipTile(Vector2 index)
+EColor GameLevel::GetTileBackgroundColor(Vector2 index) const
+{
+	const Tile* tile = GetTileInternal(index);
+
+	if (tile != nullptr)
+		return tile->BackgroundColor();
+
+	return EColor();
+}
+
+bool GameLevel::FlipTile(Vector2 index, ETileState state)
 {
 	// TODO 타일을 뒤집기 전에 조건 확인
 	// 아이템이 있다거나
@@ -94,8 +104,10 @@ bool GameLevel::FlipTile(Vector2 index)
 
 	Tile* tile = GetTileInternal(index);
 	if (tile != nullptr)
-		tile->Flip(REVERSE(tile->TileState()));
-	
+	{
+		tile->Flip(state);
+		return true;
+	}
 	return false;
 }
 

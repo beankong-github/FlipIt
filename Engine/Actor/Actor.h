@@ -45,6 +45,8 @@ public:
 	// 문자열 길이 반환.
 	inline int Length() const;
 
+	inline bool IsActive() const { return !isExpired && isActive; }
+
 	// Sorting Order 설정.
 	void SetSortingOrder(int sortingOrder);
 	inline int SortingOrder() const;

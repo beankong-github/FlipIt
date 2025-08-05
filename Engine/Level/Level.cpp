@@ -104,7 +104,13 @@ void Level::Render()
 {
 	// Render Pass.
 	for (Actor* const actor : actors)
-	{
+	{	
+		// 액터 처리 여부 확인.
+		if (!actor->IsActive())
+		{
+			continue;
+		}
+
 		// 드로우 콜.
 		actor->Render();
 	}

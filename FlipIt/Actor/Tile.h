@@ -39,10 +39,10 @@ private:
 	class ImageData* backTileImageData;
 	const EColor frontColor = EColor::White;
 	const EColor frontBackgroundColor = EColor::None;
-	const EColor backColor = EColor::None;
+	const EColor backColor = EColor::White;
 	const EColor backBackgroundColor = EColor::White;
 	static constexpr  const char* frontImageName = "Tile1.txt";
-	static constexpr const char* backImageName= "TileBack.txt";
+	static constexpr const char* backImageName= "Tile1.txt";
 	static constexpr const char* blockImageName= "TileFront.txt";
 };
 
