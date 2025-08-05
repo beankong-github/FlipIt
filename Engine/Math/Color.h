@@ -3,9 +3,11 @@
 // »ö»ó.
 enum class EColor : int
 {
+	None = 0,
 	Blue = 1,
 	Green = 2,
 	Red = 4,
+	LightGray = 7,
 	White = Red | Green | Blue,
 	Intensity = 8,
 };

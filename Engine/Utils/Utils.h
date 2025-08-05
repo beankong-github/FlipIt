@@ -36,15 +36,15 @@ namespace Utils
 	}
 
 	// 콘솔 텍스트 색상 설정 함수.
-	inline void SetConsoleTextColor(WORD color)
+	inline void SetConsoleTextColor(WORD color, WORD backgroundColor)
 	{
 		static HANDLE handle = GetConsoleHandle();
-		SetConsoleTextAttribute(handle, color);
+		SetConsoleTextAttribute(handle, color + backgroundColor*16);
 	}
 
-	inline void SetConsoleTextColor(EColor color)
+	inline void SetConsoleTextColor(EColor color, EColor backgroundColor = EColor::None)
 	{
-		SetConsoleTextColor(static_cast<WORD>(color));
+		SetConsoleTextColor(static_cast<WORD>(color), static_cast<WORD>(backgroundColor));
 	}
 
 	// 랜덤 생성 함수.

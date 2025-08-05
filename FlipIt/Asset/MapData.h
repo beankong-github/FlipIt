@@ -3,13 +3,13 @@
 #include "Math/Vector2.h"
 #include <vector>
 
-class Map : public IAsset
+class MapData : public IAsset
 {
-	RTTI_DECLARATIONS(Map, IAsset)
+	RTTI_DECLARATIONS(MapData, IAsset)
 
 public:
-	Map(const char* name);
-	virtual ~Map();
+	MapData(const char* name);
+	virtual ~MapData();
 
 private:
 	virtual void Save();

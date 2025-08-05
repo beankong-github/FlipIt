@@ -4,9 +4,10 @@
 #include "Game/ResourceMgr.h"
 #include "Asset/ImageData.h"
 
-Tile::Tile(const char* image, EColor color, const Vector2& position)
-	:Actor(image, color, position)
-	,tileState(ETileState::None)
+
+Tile::Tile(const char* image, EColor color, EColor backgroundColor, const Vector2& position, const Vector2& size) 
+	:Actor(image, color, backgroundColor, position, size)
+	, tileState(ETileState::None)
 	, tileImageData(nullptr)
 {
 }
@@ -26,7 +27,7 @@ Tile::Tile(ETileState state, const Vector2& index)
 	case ETileState::Back:
 	{
 		tileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, backImageName));
-		color = EColor::White;
+		backgroundColor = EColor::LightGray;
 	}
 		break;
 	}

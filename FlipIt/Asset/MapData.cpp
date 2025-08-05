@@ -1,21 +1,21 @@
-#include "Map.h"
+#include "MapData.h"
 
-Map::Map(const char* name)
+MapData::MapData(const char* name)
 	:IAsset("Map", name)
 {
 
 }
 
-Map::~Map()
+MapData::~MapData()
 {
 }
 
-void Map::Save()
+void MapData::Save()
 {
 
 }
 
-void Map::Load()
+void MapData::Load()
 {
 	const char* filepath = GetFullAssetPath();
 	FILE* file = nullptr;
@@ -69,7 +69,7 @@ void Map::Load()
 	fclose(file);
 }
 
-Vector2 Map::MapSize() const
+Vector2 MapData::MapSize() const
 {
 	Vector2 size(0, 0);
 	size.y = initialTileStates.size();// ¿­ Å©±â

@@ -33,7 +33,7 @@
     <ClCompile Include="Asset\ImageData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\Map.cpp">
+    <ClCompile Include="Asset\MapData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Level\GameLevel.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="Asset\ImageData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Asset\Map.h">
+    <ClInclude Include="Asset\MapData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Level\GameLevel.h">

@@ -4,7 +4,7 @@
 #include "Core.h"
 
 #include "Asset/ImageData.h"
-#include "Asset/Map.h"
+#include "Asset/MapData.h"
 
 ResourceMgr::ResourceMgr()
 {
@@ -12,8 +12,8 @@ ResourceMgr::ResourceMgr()
     for (int type = 0; type < (int)EResourceType::MAX; ++type)
     {
         // 타입에 따라 타입 경로 찾기
-        static char path[100];
         // WARN ! 리소스는 txt 타입만 읽어 온다. (상황에 따라 수정 필요)
+        static char path[100];
         sprintf_s(path, sizeof(path), "..\\Assets\\%s\\*.txt", ResourceTypeToString(static_cast<EResourceType>(type)));
 
         // 경로에 첫번째 파일 정보 가져오기
@@ -38,8 +38,7 @@ ResourceMgr::ResourceMgr()
                     newResource = CreateResource<ImageData>(findFileData.cFileName);
                     break;
                 case EResourceType::Map:
-                    // TODO Map 리소스 추가
-                    newResource = CreateResource<Map>(findFileData.cFileName);
+                    newResource = CreateResource<MapData>(findFileData.cFileName);
                     break;
                 }
 
@@ -66,6 +65,7 @@ ResourceMgr::~ResourceMgr()
 
 IAsset* ResourceMgr::GetResource(EResourceType type, const char* name)
 {
+    // None 혹은 MAX 타입 리소스는 없다. Out of range
     if (type == EResourceType::None || type == EResourceType::MAX)
         return nullptr;
 

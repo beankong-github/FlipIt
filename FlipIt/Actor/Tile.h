@@ -11,7 +11,9 @@ public:
 	Tile(
 	const char* image = "",
 	EColor color = EColor::White,
-	const Vector2& position = Vector2::Zero
+	EColor backgroundColor = EColor::None,
+	const Vector2& position = Vector2::Zero,
+	const Vector2 & size = Vector2::Zero
 	);
 
 	Tile(ETileState state, const Vector2& index);
@@ -23,8 +25,8 @@ private:
 	class ImageData* tileImageData;
 
 	// TODO 하드 코딩 개선 
-	const char* frontImageName = "TileFront.txt";
-	const char* backImageName= "TileBack.txt";
-	const char* blockImageName= "TileFront.txt";
+	static constexpr  const char* frontImageName = "TileFront.txt";
+	static constexpr const char* backImageName= "TileBack.txt";
+	static constexpr const char* blockImageName= "TileFront.txt";
 };
 

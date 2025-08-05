@@ -2,14 +2,14 @@
 #include "Game/Game.h"
 #include "Game/ResourceMgr.h"
 #include "Actor/Tile.h"
-#include "Asset/Map.h"
+#include "Asset/MapData.h"
 
 
 GameLevel::GameLevel(const char* mapName)
 {
-	mapData = dynamic_cast<Map*>(Game::Get().ResourceManager()->GetResource(EResourceType::Map, mapName));
+	// mapData 가져오기 
+	mapData = dynamic_cast<MapData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Map, mapName));
 	
-
 	// TODO -> mapName이 유효하지 않았을 경우 처리
 	assert(mapData != nullptr);
 	
@@ -37,7 +37,7 @@ void GameLevel::Render()
 
 void GameLevel::InitializeTileMap()
 {
-	// mapData를 기반으로 타일 저장
+	// mapData를 기반으로 타일 Actor 생성
 	if (mapData != nullptr)
 	{
 		const Vector2 mapSize = mapData->MapSize();

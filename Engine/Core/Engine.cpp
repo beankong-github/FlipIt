@@ -140,6 +140,7 @@ void Engine::Run()
 
 	// 정리(텍스트 색상 원래대로 돌려놓기).
 	Utils::SetConsoleTextColor(
+		FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED,
 		FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
 	);
 }
@@ -147,7 +148,8 @@ void Engine::Run()
 void Engine::WriteToBuffer(
 	const Vector2& position, 
 	const char* image, 
-	EColor color, 
+	EColor color,
+	EColor backgroundColor,
 	int sortingOrder)
 {
 	// 문자열 길이.
@@ -168,7 +170,7 @@ void Engine::WriteToBuffer(
 
 		// 버퍼에 문자/색상 기록.
 		imageBuffer->charInfoArray[index].Char.AsciiChar = image[ix];
-		imageBuffer->charInfoArray[index].Attributes = (WORD)color;
+		imageBuffer->charInfoArray[index].Attributes = (WORD)color + (WORD)backgroundColor*16 ;
 		
 		// 뎊스 기록.
 		imageBuffer->sortingOrderArray[index] = sortingOrder;
@@ -194,7 +196,7 @@ void Engine::WriteToBuffer(const Actor& actor)
 
 			// 버퍼에 문자/색상 기록.
 			imageBuffer->charInfoArray[pos].Char.AsciiChar = actor.Image()[index];
-			imageBuffer->charInfoArray[pos].Attributes = (WORD)actor.Color();
+			imageBuffer->charInfoArray[pos].Attributes = (WORD)actor.Color() + (WORD)actor.BackgroundColor() * 16;
 
 			// 뎊스 기록.
 			imageBuffer->sortingOrderArray[pos] = actor.SortingOrder();

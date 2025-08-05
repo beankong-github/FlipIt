@@ -16,6 +16,7 @@ public:
 	Actor(
 		const char* image = "",
 		EColor color = EColor::White,
+		EColor background = EColor::None,
 		const Vector2& position = Vector2::Zero,
 		const Vector2& size = Vector2::Zero
 	);
@@ -61,6 +62,7 @@ public:
 
 	// 색상 값 
 	inline EColor Color() const;
+	inline EColor BackgroundColor() const;
 
 	// 객체 삭제 함수.
 	void Destroy();
@@ -90,6 +92,7 @@ protected:
 
 	// 텍스트 색상 값.
 	EColor color;
+	EColor backgroundColor;
 
 	// BeginPlay 호출이 되었는지 확인.
 	bool hasBeganPlay = false;

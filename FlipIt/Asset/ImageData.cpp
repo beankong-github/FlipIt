@@ -1,5 +1,5 @@
 #include "ImageData.h"
-#include "Map.h"
+#include "MapData.h"
 
 ImageData::ImageData(const char* name)
 	: IAsset("Image", name)

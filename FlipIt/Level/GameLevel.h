@@ -2,7 +2,7 @@
 #include "Level/Level.h"
 #include <vector>
 
-class Map;
+class MapData;
 class Tile;
 class GameLevel : public Level
 {
@@ -22,7 +22,7 @@ private:
 
 private:
 	// ∏  ∏Æº“Ω∫
-	Map* mapData;
+	MapData* mapData;
 	// ≈∏¿œ∏ 
 	std::vector<std::vector<Tile*>> tileMap;
 

@@ -6,8 +6,8 @@
 #include <Windows.h>
 #include <iostream>
 
-Actor::Actor(const char* image, EColor color, const Vector2& position, const Vector2& size)
-	: color(color), position(position), size(size)
+Actor::Actor(const char* image, EColor color, EColor backgroundColor, const Vector2& position, const Vector2& size)
+	: color(color), backgroundColor(backgroundColor), position(position), size(size)
 {
 	// 문자열 길이.
 	length = (int)strlen(image);
@@ -83,7 +83,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 	}
 
 	// 오른쪽 가장자리가 화면 오른쪽을 벗어났는지.
-	if (newPosition.x + length > Engine::Get().Width())
+	if (newPosition.x + size.x > Engine::Get().Width())
 	{
 		return;
 	}
@@ -95,7 +95,7 @@ void Actor::SetPosition(const Vector2& newPosition)
 	}
 
 	// 화면 아래를 벗어났는지
-	if (newPosition.y - 1 > Engine::Get().Height())
+	if (newPosition.y + size.y-1> Engine::Get().Height())
 	{
 		return;
 	}
@@ -210,6 +210,11 @@ const char* Actor::Image() const
 EColor Actor::Color() const
 {
 	return color;
+}
+
+inline EColor Actor::BackgroundColor() const
+{
+	return backgroundColor;
 }
 
 void Actor::Destroy()
