@@ -22,6 +22,8 @@ public:
 
 	virtual  inline const char* Image() const override;
 
+	inline ETileState TileState() const { return tileState; }
+
 private:
 	ETileState tileState;
 	class ImageData* tileImageData;

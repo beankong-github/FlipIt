@@ -188,6 +188,11 @@ void Engine::WriteToBuffer(const Actor& actor)
 			int pos = startIndex +(settings.width*iy) + ix;
 			// 기록할 문자
 			int index = actor.Size().x * iy + ix;
+			if (actor.Image()[index] == 'b')
+			{
+				imageBuffer->sortingOrderArray[pos] = 0;
+				continue;
+			}
 
 			if (imageBuffer->sortingOrderArray[pos] > actor.SortingOrder())
 			{

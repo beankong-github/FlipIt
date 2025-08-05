@@ -16,7 +16,7 @@ GameLevel::GameLevel(const char* mapName)
 	
 	InitializeTileMap();
 
-	AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right));
+	AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
 }
 
 GameLevel::~GameLevel()
@@ -47,10 +47,34 @@ Vector2 GameLevel::GetTilMapSize() const
 	return Vector2();
 }
 
+Vector2 GameLevel::GetTileSize(Vector2 index) const
+{
+	const Tile* tile = GetTile(index);
+
+	if (tile != nullptr)
+		return tile->Size();
+
+	return Vector2();
+}
+
+Vector2 GameLevel::GetTilePos(Vector2 index) const
+{
+	const Tile* tile = GetTile(index);
+
+	if (tile != nullptr)
+		return tile->Position();
+
+	return Vector2();
+}
+
 ETileState GameLevel::GetTileState(Vector2 index) const
 {
-	// TODO
-	return ETileState();
+	const Tile* tile= GetTile(index);
+
+	if (tile != nullptr)
+		return tile->TileState();
+
+	return ETileState::None;
 }
 
 void GameLevel::InitializeTileMap()
@@ -73,4 +97,12 @@ void GameLevel::InitializeTileMap()
 			}
 		}
 	}
+}
+
+Tile* GameLevel::GetTile(Vector2 index) const
+{
+	if (index.x >= GetTilMapSize().x || index.y >= GetTilMapSize().y)
+		return nullptr;
+
+	return tileMap[index.y][index.x];
 }

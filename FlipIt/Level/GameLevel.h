@@ -20,10 +20,13 @@ public:
 
 	const std::vector<std::vector<Tile*>> TileMap() const { return tileMap; };
 	Vector2 GetTilMapSize() const;
+	Vector2 GetTileSize(Vector2 index) const;
+	Vector2 GetTilePos(Vector2 index) const;
 	ETileState GetTileState(Vector2 index) const;
 
 private:
 	void InitializeTileMap();
+	Tile* GetTile(Vector2 index) const;
 
 private:
 	// ¸Ê ¸®¼Ò½º

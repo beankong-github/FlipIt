@@ -9,13 +9,17 @@
 
 const Vector2 Player::directions[(int)EDirection::MAX] = { Vector2(0,1), Vector2(0,-1), Vector2(-1,0), Vector2(0,1) };
 
-Player::Player(const char* image, Vector2 startPos, EDirection startDir)
+Player::Player(const char* image, Vector2 startPosIndex, EDirection startDir, ETileState targetTile)
+	:targetTile(targetTile), positionIndex(startPosIndex), curDir(startDir)
 {
 	// 이미지 데이터 가져오기
 	imageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, image));
 	
 	// TODO imageData가 없을 때 처리
 	assert(imageData != nullptr);
+
+	// 크기 설정
+	SetSize(imageData->Size());
 
 	// 이미지 복사
 	//// 문자열 길이.
@@ -25,13 +29,8 @@ Player::Player(const char* image, Vector2 startPos, EDirection startDir)
 	//// 문자열 복사.
 	//strcpy_s(this->image, length + 1, tileImageData->Buffer());
 
-	// 방향 설정
-	curDir = startDir;
-	// 위치 설정
-	SetPosition(startPos);
-	// 크기 설정
-	SetSize(imageData->Size());
 
+	//tmp
 	sortingOrder = 3;
 	color = EColor::Red;
 }
@@ -43,11 +42,16 @@ Player::~Player()
 void Player::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// 위치 설정
+	SetPositionOnTile(positionIndex);
+
 }
 
 void Player::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
+
 }
 
 void Player::Render()
@@ -72,28 +76,40 @@ void Player::Move(EDirection moveDir)
 	SetPositionOnTile(positionIndex + directions[(int)moveDir]);
 }
 
-void Player::SetPositionOnTile(Vector2 position)
+void Player::SetPositionOnTile(Vector2 newPosition)
 {
 	// TODO  가능한 포지션인지 확인해야함
+	// 
 	// 1. 새로운 위치가 타일 범위 내인지	
 	// 2. 타입 확인하기 (Block 혹은 상대 타일이면 이동할 수 없다)
 
 
-	// 1. 새로운 위치가 타일 범위 내인지	확인
 	GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
+	// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
+	assert(gameLevel);
+	
+
+	// 1. 새로운 위치가 타일 범위 내인지 확인
 	Vector2 size = gameLevel->GetTilMapSize();
-	if (size.x >= position.x || size.y >= position.y)
+	if ( newPosition.x < 0 || newPosition.x >= size.x
+		|| newPosition.y < 0|| newPosition.y >= size.y)
 		return;
 
 	// 2. 이동할 위치의 타일 확인하기
-	
-	
-
-	// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
-	assert(gameLevel);
-
-
-	
+	ETileState tileState = gameLevel->GetTileState(newPosition);
+	if (tileState == targetTile)
+	{
+		// 이동!
+		positionIndex = newPosition;
+	}
 
 	// 화면상의 position 계산하기
+	// 타일 포지션 + (타일 크기 - 액터 크기) / 2
+	Vector2 offset = gameLevel->GetTileSize(positionIndex) - imageData->Size();
+	offset.x = offset.x < 0 ? 0 : offset.x;
+	offset.y = offset.y < 0 ? 0 : offset.y;
+
+	position = gameLevel->GetTilePos(positionIndex) + (offset / 2);
+
+
 }

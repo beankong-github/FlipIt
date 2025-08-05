@@ -3,7 +3,7 @@
 #include "Game/Types.h"
 
 // TODO
-//  1. 화면에 출력
+//  [V] 화면에 출력
 //  2. 타일 단위로 이동
 //		ㄴ입력에 따라 캐릭터 이동 (Input  - Deligate 코드 확인)
 //		ㄴ타일에 따라 Player 위치 계산
@@ -16,7 +16,7 @@ class Player : public Actor
 	RTTI_DECLARATIONS(Player , Actor)
 
 public:
-	Player(const char* image ,Vector2 startPos, EDirection startDir);
+	Player(const char* image ,Vector2 startPosIndex, EDirection startDir, ETileState targetTile /*Front 혹은 Back*/);
 	virtual ~Player();
 
 	virtual void BeginPlay() override;
@@ -42,4 +42,6 @@ private:
 	static const Vector2 directions[(int)EDirection::MAX];
 	EDirection curDir;
 
+	// 타겟 타일 상태
+	ETileState targetTile;
 };
