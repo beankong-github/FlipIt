@@ -58,7 +58,7 @@ public:
 
 	// 액터의 이미지 값 변경 함수.
 	void ChangeImage(const char* newImage);
-	inline const char* Image() const;
+	virtual inline const char* Image() const;
 
 	// 색상 값 
 	inline EColor Color() const;

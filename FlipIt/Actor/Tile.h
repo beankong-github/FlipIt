@@ -20,6 +20,8 @@ public:
 
 	virtual void Render() override;
 
+	virtual  inline const char* Image() const override;
+
 private:
 	ETileState tileState;
 	class ImageData* tileImageData;

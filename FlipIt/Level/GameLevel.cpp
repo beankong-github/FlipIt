@@ -1,8 +1,9 @@
 #include "GameLevel.h"
 #include "Game/Game.h"
 #include "Game/ResourceMgr.h"
-#include "Actor/Tile.h"
 #include "Asset/MapData.h"
+#include "Actor/Tile.h"
+#include "Actor/Player.h"
 
 
 GameLevel::GameLevel(const char* mapName)
@@ -14,6 +15,8 @@ GameLevel::GameLevel(const char* mapName)
 	assert(mapData != nullptr);
 	
 	InitializeTileMap();
+
+	AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right));
 }
 
 GameLevel::~GameLevel()
@@ -33,6 +36,21 @@ void GameLevel::Tick(float deltaTime)
 void GameLevel::Render()
 {
 	Super::Render();
+}
+
+Vector2 GameLevel::GetTilMapSize() const
+{
+	if (mapData != nullptr)
+	{
+		return mapData->MapSize();
+	}
+	return Vector2();
+}
+
+ETileState GameLevel::GetTileState(Vector2 index) const
+{
+	// TODO
+	return ETileState();
 }
 
 void GameLevel::InitializeTileMap()

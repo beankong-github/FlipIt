@@ -16,3 +16,13 @@ enum class EResourceType
 	Map,
 	MAX
 };
+
+enum class EDirection
+{
+	None = -1,
+	Up,
+	Down,
+	Left,
+	Right,
+	MAX
+};

@@ -35,12 +35,13 @@ Tile::Tile(ETileState state, const Vector2& index)
 	// 타일 이미지가 없으면 안대..!
 	assert(tileImageData != nullptr);
 
-	// 문자열 길이.
-	length = (int)strlen(tileImageData->Buffer());
-	// 메모리 할당.
-	this->image = new char[length + 1];
-	// 문자열 복사.
-	strcpy_s(this->image, length + 1, tileImageData->Buffer());
+	// 이미지 복사
+	//// 문자열 길이.
+	//length = (int)strlen(tileImageData->Buffer());
+	//// 메모리 할당.
+	//this->image = new char[length + 1];
+	//// 문자열 복사.
+	//strcpy_s(this->image, length + 1, tileImageData->Buffer());
 
 
 	Vector2 pos(0, 0);
@@ -55,4 +56,12 @@ void Tile::Render()
 {
 	// 타일 그리기
 	Engine::Get().WriteToBuffer(*this);
+}
+
+inline const char* Tile::Image() const
+{
+	if (tileImageData != nullptr)
+		return tileImageData->Buffer();
+
+	return image;
 }
