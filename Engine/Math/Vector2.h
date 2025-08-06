@@ -13,6 +13,7 @@ public:
 	Vector2 operator-(const Vector2& other) const;
 	Vector2 operator/(int other) const;
 	bool operator==(const Vector2& other) const;
+	bool operator != (const Vector2& other) const;
 
 	// 형변환 연산자 오버로딩.
 	operator COORD();
@@ -20,6 +21,9 @@ public:
 
 	// 문자열로 출력.
 	const char* ToString();
+
+	// 다른 Vector가 현대 Vector 범위 내에 있는지 확인
+	bool InRange(const Vector2& other) const;
 
 	static Vector2 Zero;
 	static Vector2 One;

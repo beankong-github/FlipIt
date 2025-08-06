@@ -21,7 +21,7 @@ public:
 	
 
 	// Tile 
-	const std::vector<std::vector<Tile*>> TileMap() const { return tileMap; };
+	const std::vector<std::vector<Tile*>>& TileMap() const { return tileMap; };
 	const Tile& GetTile(Vector2 index) const;
 	Vector2 GetTilMapSize() const;
 	Vector2 GetTileSize(Vector2 index) const;

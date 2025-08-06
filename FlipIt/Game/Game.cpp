@@ -8,7 +8,7 @@ Game::Game()
 {
 	resourceManager = new ResourceMgr();
 
-	AddLevel(new GameLevel("TestMap.txt"));
+	AddLevel(new GameLevel("AITestMap.txt"));
 }
 
 void Game::CleanUp()

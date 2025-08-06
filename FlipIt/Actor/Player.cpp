@@ -119,10 +119,20 @@ void Player::Move(EDirection moveDir)
 	if (moveDir == EDirection::None || moveDir == EDirection::MAX)
 		return;
 
-
-
 	// 특정 방향으로 이동한다.
 	SetPositionOnTile(positionIndex + directions[(int)moveDir]);
+}
+
+void Player::Move(Vector2 newPosition)
+{
+	// 기존에 선택되어 있던 타일이 있다면 선택을 해제한다.
+		if (SelectableTileOutliner != nullptr && SelectableTileOutliner->IsActive())
+		{
+			SelectableTileOutliner->DeactivateOutliner();
+		}
+
+	// 특정 방향으로 이동한다.
+	SetPositionOnTile(newPosition);
 }
 
 void Player::SetPositionOnTile(Vector2 newPosition)
@@ -134,8 +144,7 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 
 	// 1. 새로운 위치가 타일 범위 내인지 확인
 	Vector2 size = gameLevel->GetTilMapSize();
-	if ( newPosition.x < 0 || newPosition.x >= size.x
-		|| newPosition.y < 0|| newPosition.y >= size.y)
+	if (!size.InRange(newPosition))
 		return;
 
 	// 2. 이동할 위치의 타일 확인하기

@@ -4,6 +4,7 @@
 #include "Asset/MapData.h"
 #include "Actor/Tile.h"
 #include "Actor/Player.h"
+#include "Actor/EnemyAI.h"
 
 
 GameLevel::GameLevel(const char* mapName)
@@ -16,7 +17,8 @@ GameLevel::GameLevel(const char* mapName)
 	
 	InitializeTileMap();
 
-	AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
+	//AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
+	AddActor(new EnemyAI("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Back));
 	//AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
 }
 

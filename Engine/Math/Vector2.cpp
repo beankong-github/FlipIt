@@ -42,6 +42,11 @@ bool Vector2::operator==(const Vector2& other) const
     return x == other.x && y == other.y;
 }
 
+bool Vector2::operator!=(const Vector2& other) const
+{
+    return !(x == other.x && y == other.y);
+}
+
 Vector2::operator COORD()
 {
     COORD coord;
@@ -71,4 +76,12 @@ const char* Vector2::ToString()
     value = new char[1024];
     sprintf_s(value, 1024, "(%d, %d)", x, y);
     return value;
+}
+
+bool Vector2::InRange(const Vector2& other) const
+{
+    if (other.x < 0 || other.x >= x || other.y < 0 || other.y >= y)
+        return false;
+
+    return true;
 }
