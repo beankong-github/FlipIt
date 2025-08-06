@@ -5,7 +5,7 @@
 
 Outliner::Outliner(const char* name)
 {
-	imageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, name));
+	imageData = dynamic_cast<ImageData*>(Game::Get().GetResourceMgr()->GetResource(EResourceType::Image, name));
 	assert(imageData);
 
 

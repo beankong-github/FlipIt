@@ -2,11 +2,13 @@
 #include "Level/TestLevel.h"
 #include "Level/GameLevel.h"
 #include "ResourceMgr.h"
+#include "TextImageRenderer.h"
 
 Game::Game()
 	:Engine()
 {
-	resourceManager = new ResourceMgr();
+	resourceMgr = new ResourceMgr();
+	textImageRenderer = new TextImageRenderer();
 
 	AddLevel(new GameLevel("AITestMap.txt"));
 }
@@ -14,7 +16,8 @@ Game::Game()
 void Game::CleanUp()
 {
 	Super::CleanUp();
-	SafeDelete(resourceManager);
+	SafeDelete(resourceMgr);
+	SafeDelete(textImageRenderer);
 }
 
 Game::~Game()

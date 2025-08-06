@@ -167,10 +167,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\TextImageRenderer.cpp" />
     <ClCompile Include="Actor\EnemyAI.cpp" />
     <ClCompile Include="Actor\Outliner.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
     <ClCompile Include="Actor\Tile.cpp" />
+    <ClCompile Include="Actor\UI.cpp" />
     <ClCompile Include="Asset\ImageData.cpp" />
     <ClCompile Include="Asset\MapData.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -180,10 +182,12 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\TextImageRenderer.h" />
     <ClInclude Include="Actor\EnemyAI.h" />
     <ClInclude Include="Actor\Outliner.h" />
     <ClInclude Include="Actor\Player.h" />
     <ClInclude Include="Actor\Tile.h" />
+    <ClInclude Include="Actor\UI.h" />
     <ClInclude Include="Asset\ImageData.h" />
     <ClInclude Include="Asset\MapData.h" />
     <ClInclude Include="Game\Game.h" />

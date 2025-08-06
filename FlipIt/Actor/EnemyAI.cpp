@@ -31,10 +31,8 @@ void EnemyAI::Tick(float deltaTime)
 				// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
 				assert(gameLevel);
 
-				if (gameLevel->FlipTile(selectedTileIndex, playerTileState))
-				{
-					SelectableTileOutliner->DeactivateOutliner();
-				}
+				gameLevel->FlipTile(selectedTileIndex, playerTileState);
+				SelectableTileOutliner->DeactivateOutliner();
 			}
 		}
 

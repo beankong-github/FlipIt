@@ -38,6 +38,7 @@ public:
 
 	// 위치 설정/값 읽는 함수.
 	void SetPosition(const Vector2& newPosition);
+	void SetPositionOffset(const Vector2& offset);
 	inline Vector2 Position() const;
 	void SetSize(const Vector2& newSize);
 	inline Vector2 Size() const;
@@ -60,7 +61,7 @@ public:
 
 	// 액터의 이미지 값 변경 함수.
 	void ChangeImage(const char* newImage);
-	virtual inline const char* Image() const;
+	virtual const char* Image() const;
 
 	// 색상 값 
 	inline EColor Color() const;
@@ -82,6 +83,7 @@ protected:
 	// Transform
 	//위치 정보 (좌상단)
 	Vector2 position;
+	Vector2 offset;
 	// 크기 정보
 	Vector2 size;
 

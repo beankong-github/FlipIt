@@ -17,8 +17,8 @@ Tile::Tile(ETileState state, const Vector2& index)
 	, curTileImageData(nullptr)
 	, index(index)
 {
-	frontTileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, frontImageName));
-	backTileImageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, backImageName));
+	frontTileImageData = dynamic_cast<ImageData*>(Game::Get().GetResourceMgr()->GetResource(EResourceType::Image, frontImageName));
+	backTileImageData = dynamic_cast<ImageData*>(Game::Get().GetResourceMgr()->GetResource(EResourceType::Image, backImageName));
 	
 	Flip(state);
 

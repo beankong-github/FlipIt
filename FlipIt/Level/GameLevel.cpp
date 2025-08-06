@@ -5,18 +5,28 @@
 #include "Actor/Tile.h"
 #include "Actor/Player.h"
 #include "Actor/EnemyAI.h"
+#include "Game/TextImageRenderer.h"
 
 
 GameLevel::GameLevel(const char* mapName)
 {
 	// mapData 가져오기 
-	mapData = dynamic_cast<MapData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Map, mapName));
+	mapData = dynamic_cast<MapData*>(Game::Get().GetResourceMgr()->GetResource(EResourceType::Map, mapName));
 	
 	// TODO -> mapName이 유효하지 않았을 경우 처리
 	assert(mapData != nullptr);
 	
+	// 맵 위치 offset 계산 
+	mapPositionOffset.x = 10 + ((Game::Get().Width()/2) - (mapData->MapSize().x)) /2;
+	mapPositionOffset.y = 15;
+
+	// 게임 시간 초기화
+	remainTime = gameTime;
+
+	// 타일맵 초기화
 	InitializeTileMap();
 
+	// 액터 추가
 	AddActor(new Player("Player.txt", Vector2(7, 5), EDirection::Right, ETileState::Front));
 	AddActor(new EnemyAI("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Back));
 	//AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
@@ -33,12 +43,68 @@ void GameLevel::BeginPlay()
 
 void GameLevel::Tick(float deltaTime)
 {
+
+	if (remainTime <= 0)
+	{
+		return;
+		// 결과창
+
+
+		CheckScore();
+
+	}
+
+
 	Super::Tick(deltaTime);
+	
+	remainTime -= deltaTime;
+
+
 }
 
 void GameLevel::Render()
 {
+	// 화면 상단에 남은 시간 렌더링
+	RenderGameTimer();
+
 	Super::Render();
+}
+
+void GameLevel::RenderGameTimer()
+{
+	std::string remainTimeString;
+	Vector2 textPos;
+	EColor textColor = EColor::White;
+
+	std::string min = std::to_string(static_cast<int>(remainTime / 60));
+	std::string sec = std::to_string(static_cast<int>(remainTime) % 60);
+	if (min.size() == 1)
+		min = '0' + min;
+	if (sec.size() == 1)
+		sec = '0' + sec;
+	remainTimeString = min + ":" + sec;
+
+	textPos.x = (Game::Get().Width() / 2) - ((remainTimeString.size() * 4));
+	textPos.y = 3;
+	
+	if (remainTime <= 11)
+	{
+		textColor = EColor::Yellow;
+		if(remainTime <= 4)
+			textColor = EColor::Red;
+	}
+
+	Game::Get().GetTextImageRenderer()->RenderText(remainTimeString.c_str(), textPos, textColor, EColor::None, 10, EFont::Timer);
+}
+
+void GameLevel::Pause()
+{
+	isPause = true;
+}
+
+void GameLevel::Play()
+{
+	isPause = false;
 }
 
 const Tile& GameLevel::GetTile(Vector2 index) const
@@ -112,8 +178,7 @@ bool GameLevel::FlipTile(Vector2 index, ETileState state)
 	// TODO 타일을 뒤집기 전에 조건 확인
 	// 아이템이 있다거나
 	// 시간이 다됐거나
-	// 게임이 종료될 예정이라던가 -> 상관 없을듯?
-
+	// 게임이 종료될 예정이라던가 -> 상관 없을듯?	
 
 	Tile* tile = GetTileInternal(index);
 	if (tile->TileState() == ETileState::None || tile->TileState() == ETileState::Block)
@@ -122,9 +187,29 @@ bool GameLevel::FlipTile(Vector2 index, ETileState state)
 	if (tile != nullptr)
 	{
 		tile->Flip(state);
+		CheckScore();
 		return true;
 	}
 	return false;
+}
+
+void GameLevel::CheckScore()
+{
+	// 점수 계산
+	for (const auto& tiles : tileMap)
+	{
+		for (const auto& tile : tiles)
+		{
+			if (tile->TileState() == ETileState::Front)
+				++scoreFront;
+
+			if (tile->TileState() == ETileState::Back)
+				++scoreBack;
+		}
+	}
+
+	++scoreFront;		// front actor가 서있는 위치 계산
+	++scoreBack;		// back actor가 서있는 위치 계산
 }
 
 void GameLevel::InitializeTileMap()
@@ -140,6 +225,7 @@ void GameLevel::InitializeTileMap()
 			{
 				// 타일 생성
 				Tile* tile = new Tile((*mapData)[iy][ix], Vector2(ix, iy));
+				tile->SetPositionOffset(mapPositionOffset);
 				// 액터로 추가함
 				AddActor(tile);
 				// 타일맵에 타일 추가

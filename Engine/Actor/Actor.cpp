@@ -50,54 +50,47 @@ void Actor::Render()
 	//std::cout << image;
 
 	// 엔진이 관리하는 이미지 버퍼에 액터의 문자열/색상 기록.
-	Engine::Get().WriteToBuffer(position, image, color);
+	//Engine::Get().WriteToBuffer(position, image, color);
 }
 
 void Actor::SetPosition(const Vector2& newPosition)
 {
-	// 예외처리 (화면 벗어났는지 확인).
-
-	// 왼쪽 가장자리가 화면 왼쪽을 벗어났는지.
-	if (newPosition.x < 0)
-	{
-		return;
-	}
-
-	// 오른쪽 가장자리가 화면 오른쪽을 벗어났는지.
-	if (newPosition.x + size.x > Engine::Get().Width())
-	{
-		return;
-	}
-
-	// 위쪽 가장자리가 화면의 위를 벗어났는지
-	if (newPosition.y < 0)
-	{
-		return;
-	}
-
-	// 화면 아래를 벗어났는지
-	if (newPosition.y + size.y-1> Engine::Get().Height())
-	{
-		return;
-	}
-
+	Vector2 newPos = newPosition + offset;
 	// 같으면 업데이트 안함.
-	if (position == newPosition)
+	if (position == newPos)
+	{
+		return;
+	}
+	
+	// 예외처리 (화면 벗어났는지 확인).
+	if (newPos.x < 0)
+	{
+		return;
+	}
+	// 오른쪽 가장자리가 화면 오른쪽을 벗어났는지.
+	if (newPos.x + size.x > Engine::Get().Width())
+	{
+		return;
+	}
+	// 위쪽 가장자리가 화면의 위를 벗어났는지
+	if (newPos.y < 0)
+	{
+		return;
+	}
+	// 화면 아래를 벗어났는지
+	if (newPos.y + size.y-1> Engine::Get().Height())
 	{
 		return;
 	}
 
-	//// 지울 위치 확인.
-	//Vector2 direction = newPosition - position;
-	//position.x = direction.x >= 0 ? position.x : position.x + length - 1;
+	position = newPos;
+}
 
-	//// 커서 이동.
-	//Utils::SetConsolePosition(position);
-
-	//// 문자열 길이 고려해서 지울 위치 확인해야 함.
-	//std::cout << ' ';
-
-	position = newPosition;
+void Actor::SetPositionOffset(const Vector2& offset)
+{
+	this->offset = offset;
+	// 위치 재설정
+	SetPosition(position);
 }
 
 Vector2 Actor::Position() const

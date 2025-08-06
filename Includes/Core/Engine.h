@@ -64,8 +64,14 @@ public:
 	void Run();
 
 	// 문자열 그리기 요청 함수.
+	// WARN size : 이미지 크기 -> 전달해준만큼만 읽음!! 제대로 출력하려면 이미지의 각 열의 크기가 같아야 한다
 	void WriteToBuffer(
-		const Vector2& position, const char* image, EColor color = EColor::White, EColor backgroundColor = EColor::None, int sortingOrder = 0
+		const Vector2& position
+		, const Vector2& size		
+		, const char* image
+		, EColor color = EColor::White
+		, EColor backgroundColor = EColor::None
+		, int sortingOrder = 0
 	);
 
 	void WriteToBuffer(const Actor& actor);

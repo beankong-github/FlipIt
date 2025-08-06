@@ -147,46 +147,59 @@ void Engine::Run()
 }
 
 void Engine::WriteToBuffer(
-	const Vector2& position, 
-	const char* image, 
-	EColor color,
-	EColor backgroundColor,
-	int sortingOrder)
+	const Vector2& position
+	, const Vector2& size
+	, const char* image
+	, EColor color
+	, EColor backgroundColor
+	, int sortingOrder)
 {
-	// 문자열 길이.
-	int length = static_cast<int>(strlen(image));
-
-	// 문자열 기록.
-	for (int ix = 0; ix < length; ++ix)
+	int startPos = (position.y * settings.width) + position.x;
+	for (int iy = 0; iy < size.y; ++iy)
 	{
-		// @Todo: 화면 버퍼 크기 안 넘어가게 예외처리 필요함.
-
-		// 기록할 문자 위치.
-		int index = (position.y * (settings.width)) + position.x + ix;
-
-		if (imageBuffer->sortingOrderArray[index] > sortingOrder)
+		for (int ix = 0; ix < size.x; ++ix)
 		{
-			continue;
-		}
+			// 기록할 문자 위치
+			int pos = startPos + (settings.width * iy) + ix;
+			// 기록할 문자
+			int index = size.x * iy + ix;
+			// out of range 방지
+			int lineLength = (int)strlen(image);
+			if (index >= lineLength)
+				continue;
 
-		// 버퍼에 문자/색상 기록.
-		imageBuffer->charInfoArray[index].Char.AsciiChar = image[ix];
-		imageBuffer->charInfoArray[index].Attributes = (WORD)color + (WORD)backgroundColor*16 ;
-		
-		// 뎊스 기록.
-		imageBuffer->sortingOrderArray[index] = sortingOrder;
+			// 'b'가 있는 부분을 렌더링하지 않는다.
+			if (image[index] == 'b')
+			{
+				imageBuffer->sortingOrderArray[pos] = 0;
+				continue;
+			}
+
+			if (imageBuffer->sortingOrderArray[pos] > sortingOrder)
+			{
+				continue;
+			}
+
+			// 버퍼에 문자/색상 기록.
+			imageBuffer->charInfoArray[pos].Char.AsciiChar = image[index];
+			imageBuffer->charInfoArray[pos].Attributes = (WORD)color + (WORD)backgroundColor * 16;
+
+			// 뎊스 기록.
+			imageBuffer->sortingOrderArray[pos] = sortingOrder;
+
+		}
 	}
 }
 
 void Engine::WriteToBuffer(const Actor& actor)
 {
-	int startIndex = (actor.Position().y * settings.width) + actor.Position().x;
+	int startPos = (actor.Position().y * settings.width) + actor.Position().x;
 	for (int iy = 0; iy < actor.Size().y; ++iy)
 	{
 		for (int ix = 0; ix < actor.Size().x; ++ix)
 		{
 			// 기록할 문자 위치
-			int pos = startIndex +(settings.width*iy) + ix;
+			int pos = startPos +(settings.width*iy) + ix;
 			// 기록할 문자
 			int index = actor.Size().x * iy + ix;
 			if (actor.Image()[index] == 'b')

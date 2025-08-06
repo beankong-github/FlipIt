@@ -1,7 +1,8 @@
 #pragma once
 #include "Engine.h"
 
-class ResourceMgr;
+class ResourceMgr; 
+class  TextImageRenderer;
 class Game : public Engine
 {
 	RTTI_DECLARATIONS(Game, Engine)
@@ -14,8 +15,10 @@ public:
 
 	static Game& Get(){ return *dynamic_cast<Game*>(instance); };
 
-	ResourceMgr* ResourceManager() const { return this->resourceManager; }
+	ResourceMgr* GetResourceMgr() const { return this->resourceMgr; }
+	TextImageRenderer* GetTextImageRenderer() const { return this->textImageRenderer; }
 
 private:
-	ResourceMgr* resourceManager;
+	ResourceMgr* resourceMgr;
+	TextImageRenderer* textImageRenderer;
 };

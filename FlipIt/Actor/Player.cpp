@@ -14,7 +14,7 @@ Player::Player(const char* image, Vector2 startPosIndex, EDirection startDir, ET
 	:playerTileState(targetTile), positionIndex(startPosIndex), curDir(startDir)
 {
 	// 이미지 데이터 가져오기
-	imageData = dynamic_cast<ImageData*>(Game::Get().ResourceManager()->GetResource(EResourceType::Image, image));
+	imageData = dynamic_cast<ImageData*>(Game::Get().GetResourceMgr()->GetResource(EResourceType::Image, image));
 	
 	// TODO imageData가 없을 때 처리
 	assert(imageData != nullptr);
