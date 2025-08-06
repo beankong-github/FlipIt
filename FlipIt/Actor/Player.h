@@ -16,6 +16,8 @@
 //         [V]TileOutliener->Actor 추가. 타일별로? 아님 Player별로? 별로 상관은 없을 것 같은데 어쨌든 Player가 on/off 해야하니까 플레이어가 가지고 있자
 //         [V]Outliner가 켜지면 
 
+// 예외처리 -> 다른 플레이어가 서있는 타일으로는 이동할 수 없고 타일을 뒤집을 수 없다.
+
 class Player : public Actor
 {
 	RTTI_DECLARATIONS(Player , Actor)

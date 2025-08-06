@@ -69,6 +69,17 @@ void Tile::Flip(ETileState state)
 	}
 }
 
+void Tile::OnPlayerCome()
+{
+	tileState = ETileState::Block;
+}
+
+void Tile::OnPlayerLeave(ETileState playerTargetState)
+{
+	// 플레이어가 떠나면 플레이어의 상태로 다시 돌려 놓는다.
+	tileState = playerTargetState;
+}
+
 inline const char* Tile::Image() const
 {
 	if (curTileImageData != nullptr)

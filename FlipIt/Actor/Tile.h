@@ -21,6 +21,8 @@ public:
 	virtual void Render() override;
 
 	void Flip(ETileState state = ETileState::Front);
+	void OnPlayerCome();
+	void OnPlayerLeave(ETileState playerTargetState);
 
 	virtual  inline const char* Image() const override;
 	inline ETileState TileState() const { return tileState; }

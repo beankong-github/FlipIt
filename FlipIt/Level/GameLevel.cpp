@@ -17,7 +17,7 @@ GameLevel::GameLevel(const char* mapName)
 	
 	InitializeTileMap();
 
-	//AddActor(new Player("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Front));
+	AddActor(new Player("Player.txt", Vector2(7, 5), EDirection::Right, ETileState::Front));
 	AddActor(new EnemyAI("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Back));
 	//AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
 }
@@ -86,6 +86,17 @@ ETileState GameLevel::GetTileState(Vector2 index) const
 	return ETileState::None;
 }
 
+void GameLevel::OnPlayerMove(Vector2 prevPos, Vector2 newPos, ETileState state)
+{
+	Tile* prevTile = GetTileInternal(prevPos);
+	assert(prevTile != nullptr);
+	prevTile->OnPlayerLeave(state);
+
+	Tile* newTile = GetTileInternal(newPos);
+	assert(newTile != nullptr);
+	newTile->OnPlayerCome();
+}
+
 EColor GameLevel::GetTileBackgroundColor(Vector2 index) const
 {
 	const Tile* tile = GetTileInternal(index);
@@ -105,6 +116,9 @@ bool GameLevel::FlipTile(Vector2 index, ETileState state)
 
 
 	Tile* tile = GetTileInternal(index);
+	if (tile->TileState() == ETileState::None || tile->TileState() == ETileState::Block)
+		return false;
+
 	if (tile != nullptr)
 	{
 		tile->Flip(state);

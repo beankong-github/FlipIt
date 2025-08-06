@@ -86,10 +86,8 @@ void Player::Tick(float deltaTime)
 			// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
 			assert(gameLevel);
 
-			if (gameLevel->FlipTile(selectedTileIndex, playerTileState))
-			{
-				SelectableTileOutliner->DeactivateOutliner();
-			}
+			gameLevel->FlipTile(selectedTileIndex, playerTileState);
+			SelectableTileOutliner->DeactivateOutliner();
 		}
 	}
 }
@@ -149,6 +147,7 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 
 	// 2. 이동할 위치의 타일 확인하기
 	ETileState tileState = gameLevel->GetTileState(newPosition);
+
 	// 만약 이동하려고 했던 타일이 상대 타일이었다면 선택한다.
 	if(tileState == REVERSE(playerTileState))
 	{
@@ -158,6 +157,9 @@ void Player::SetPositionOnTile(Vector2 newPosition)
 
 	if (tileState == playerTileState)
 	{
+		//  레벨에 플레이어 이동을 알린다.
+		gameLevel->OnPlayerMove(positionIndex, newPosition, playerTileState);
+
 		// 이동!
 		positionIndex = newPosition;
 
@@ -177,6 +179,12 @@ void Player::SelectTile(Vector2 tile)
 	GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
 	// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
 	assert(gameLevel);
+
+	// 한번 더 체크
+	if (gameLevel->GetTileState(tile) == ETileState::None || gameLevel->GetTileState(tile) == ETileState::Block)
+	{
+		return;
+	}
 
 	selectedTileIndex = tile;
 
