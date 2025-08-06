@@ -22,6 +22,22 @@ void EnemyAI::Tick(float deltaTime)
 	{
 		elapsedTime = 0.f;
 
+		// 뒤집기 동작
+		if (SelectableTileOutliner != nullptr)
+		{
+			if (SelectableTileOutliner->IsActive())
+			{
+				GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
+				// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
+				assert(gameLevel);
+
+				if (gameLevel->FlipTile(selectedTileIndex, playerTileState))
+				{
+					SelectableTileOutliner->DeactivateOutliner();
+				}
+			}
+		}
+
 		// 목표 위치 수집하기
 		auto goals = CollectFlipTargetTiles();
 		// 길찾기
@@ -32,22 +48,6 @@ void EnemyAI::Tick(float deltaTime)
 
 			// 다음 위치로 이동
 			Move(next);
-
-			// 뒤집기 동작
-			if (SelectableTileOutliner != nullptr)
-			{
-				if (SelectableTileOutliner->IsActive())
-				{
-					GameLevel* gameLevel = dynamic_cast<GameLevel*>(owner);
-					// Player가 속한 레벨이 gamelevel이 아닐 경우 assert 
-					assert(gameLevel);
-
-					if (gameLevel->FlipTile(selectedTileIndex, playerTileState))
-					{
-						SelectableTileOutliner->DeactivateOutliner();
-					}
-				}
-			}
 		}
 	}
 }
@@ -71,22 +71,25 @@ std::vector<Vector2> EnemyAI::CollectFlipTargetTiles()
 			// 적의 타일은 모두 수집한다.
 			if(REVERSE(playerTileState) == gamelevel->GetTileState(Vector2(ix, iy)))
 			{
-				//적 타일 주변 4방향을 조사한다.
-				for (auto dir : directions)
-				{
-					Vector2 next = Vector2(ix, iy) + dir;
 
-					// 보드 범위 밖이면 유효한 타일이 아니다.
-					if (!gamelevel->GetTilMapSize().InRange(next))
-					{
-						continue;
-					}
-					// 타일 타입이 내 타일 타입과 같아야 한다.
-					if (playerTileState == gamelevel->GetTileState(next))
-					{
-						flipableTiles.emplace_back(next);
-					}
-				}
+				flipableTiles.emplace_back(Vector2(ix, iy));
+
+				//적 타일 주변 4방향을 조사한다.
+				//for (auto dir : directions)
+				//{
+				//	Vector2 next = Vector2(ix, iy) + dir;
+
+				//	// 보드 범위 밖이면 유효한 타일이 아니다.
+				//	if (!gamelevel->GetTilMapSize().InRange(next))
+				//	{
+				//		continue;
+				//	}
+				//	// 타일 타입이 내 타일 타입과 같아야 한다.
+				//	if (playerTileState == gamelevel->GetTileState(next))
+				//	{
+				//		flipableTiles.emplace_back(next);
+				//	}
+				//}
 			}
 		}
 
@@ -102,16 +105,16 @@ std::vector<Vector2> EnemyAI::AStar(std::vector<Vector2>& goals)
 	int tableRowCount = gamelevel->GetTilMapSize().y;
 
 	// G-Score 테이블 : 시작점부터 해당 칸까지 알려진 최단 비용. 최대값으로 초기화 해둔다.
-	std::vector<std::vector<int>> gScoreBoard(tableColCount, std::vector<int>(tableRowCount, INT_MAX));
+	std::vector<std::vector<int>> gScoreBoard(tableRowCount, std::vector<int>(tableColCount, INT_MAX));
 
 	// 경로 복원을 위한 부모 위치 테이블(현재 노드 방문전 방문했던 노드 위치)
-	std::vector<std::vector<Vector2>> cameFrom(tableColCount, std::vector<Vector2>(tableRowCount, {-1,-1}));
+	std::vector<std::vector<Vector2>> cameFrom(tableRowCount, std::vector<Vector2>(tableColCount, {-1,-1}));
 
 	// 우선 순위 큐 -> 열린 목록 : 열린 목록에서 가장 작은 f값을 가진 것을 경로로 선택한다.
 	std::priority_queue<Node> openQ;
 	
 	// 시작 위치 표시
-	gScoreBoard[positionIndex.x][positionIndex.y] = 0;
+	gScoreBoard[positionIndex.y][positionIndex.x] = 0;
 	// 현재 위치에서 목표까지 가장 적은 휴리스틱 값을 구한다.
 	int initialHeuristics = MinGoalHeuristic(positionIndex, goals); // 휴리스틱 추정값 조사용
 	// 시작 위치 OpenQ에 삽입
@@ -164,8 +167,8 @@ std::vector<Vector2> EnemyAI::AStar(std::vector<Vector2>& goals)
 				continue;
 
 			// 이동 불가한 타일은 건너뛴다.
-			if (gamelevel->GetTileState(neighbor) != playerTileState)
-				continue;
+			/*if (gamelevel->GetTileState(neighbor) != playerTileState)
+				continue;*/
 
 			// G 값, F값 계산
 			int newG = curNode.gScore + 1;
