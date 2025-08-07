@@ -25,6 +25,13 @@ public:
 
 	// 액터 위치 끝 위치를 반환한다. (좌상)
 	Vector2 RenderText(const char* text, Vector2 pos, EColor color, EColor backgroundColor, int sortingOrder, EFont font = EFont::Text);
+	Vector2 RenderTextEX(
+		const char* text
+		, Vector2 pos, std::vector<Vector2> offsets
+		, std::vector <EColor> colors
+		, std::vector <EColor> backgroundColors
+		, int sortingOrder
+		, EFont font = EFont::Text);
 	
 	static const char* fonts[(int)EFont::Max];
 

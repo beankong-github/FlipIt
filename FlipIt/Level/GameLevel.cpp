@@ -28,8 +28,8 @@ GameLevel::GameLevel(const char* mapName)
 	InitializeTileMap();
 
 	// 액터 추가
-	AddActor(new Player("Player.txt", Vector2(7, 5), EDirection::Right, ETileState::Front));
-	AddActor(new EnemyAI("Player.txt", Vector2(0, 0), EDirection::Right, ETileState::Back));
+	AddActor(new Player("Player.txt", mapData->PlayerSpawnPos(), EDirection::Right, ETileState::Front));
+	AddActor(new EnemyAI("Player.txt", mapData->EnemySpawnPos(), EDirection::Right, ETileState::Back));
 	//AddActor(new Player("Player.txt", Vector2(0, 1), EDirection::Right, ETileState::Back));
 }
 
@@ -74,11 +74,11 @@ void GameLevel::Render()
 
 	// 점수 렌더링
 	// Player
-	Game::Get().GetTextImageRenderer()->RenderText("Player", Vector2( 5, mapPositionOffset.y), EColor::Blue, EColor::None, 10, EFont::Text);
+	Game::Get().GetTextImageRenderer()->RenderText("Player", Vector2( 5, mapPositionOffset.y), EColor::LightBlue, EColor::None, 10, EFont::Text);
 	Game::Get().GetTextImageRenderer()->RenderText("score", Vector2( 5, mapPositionOffset.y+5), EColor::White, EColor::None, 10, EFont::Text);
 	
 	std::string playerScore = std::to_string(scoreFront);
-	Game::Get().GetTextImageRenderer()->RenderText(playerScore.c_str(), Vector2(15, mapPositionOffset.y + 15), EColor::Blue, EColor::None, 10, EFont::Timer);
+	Game::Get().GetTextImageRenderer()->RenderText(playerScore.c_str(), Vector2(15, mapPositionOffset.y + 15), EColor::LightBlue, EColor::None, 10, EFont::Timer);
 
 
 	// 적

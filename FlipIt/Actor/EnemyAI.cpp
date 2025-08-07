@@ -12,7 +12,8 @@ EnemyAI::EnemyAI(const char* image, Vector2 startPosIndex, EDirection startDir, 
 	:Player(image, startPosIndex, startDir, targetTile)
 {
 	//tmp
-	color = EColor::LightBlue;
+	color = EColor::LightRed;
+	backgroundColor = EColor::None;;
 }
 
 void EnemyAI::Tick(float deltaTime)

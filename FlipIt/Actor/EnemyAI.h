@@ -9,6 +9,8 @@
 
 class EnemyAI : public Player
 {
+    RTTI_DECLARATIONS(EnemyAI, Player)
+
     // A* 노드 정의
     struct Node {
         Vector2 pos;
@@ -43,7 +45,7 @@ private:
     int MinGoalHeuristic(const Vector2& start, const std::vector<Vector2>& goals);
 
 private:
-    float moveSpeed = 0.5f;
+    float moveSpeed = 0.4f;
     float elapsedTime = 0.f;
 
 };

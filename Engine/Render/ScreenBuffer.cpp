@@ -46,20 +46,6 @@ ScreenBuffer::ScreenBuffer(const Vector2& screenSize, int fontSize)
 	// 커서 안보이게 설정.
 	CONSOLE_CURSOR_INFO info{ 1, FALSE };
 	SetConsoleCursorInfo(consoleBuffer, &info);
-
-	// 콘솔 폰트 크기 변경
-	CONSOLE_FONT_INFOEX cfi;
-	cfi.cbSize = sizeof(cfi);
-	cfi.nFont = 0;
-	cfi.dwFontSize.X = 0;                   // Width of each character in the font
-	cfi.dwFontSize.Y = (SHORT)fontSize;                  // Height
-	cfi.FontFamily = FF_DONTCARE;
-	cfi.FontWeight = FW_NORMAL;
-	wcscpy_s(cfi.FaceName, LF_FACESIZE, L"Consolas"); // Choose your font
-	if (!SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi))
-	{
-		__debugbreak();
-	}
 }
 
 ScreenBuffer::ScreenBuffer(HANDLE console, const Vector2& screenSize, int fontSize)
@@ -91,20 +77,6 @@ ScreenBuffer::ScreenBuffer(HANDLE console, const Vector2& screenSize, int fontSi
 	// 커서 안보이게 설정.
 	CONSOLE_CURSOR_INFO cursorInfo{ 1, FALSE };
 	SetConsoleCursorInfo(consoleBuffer, &cursorInfo);
-
-	// 콘솔 폰트 크기 변경
-	CONSOLE_FONT_INFOEX cfi;
-	cfi.cbSize = sizeof(cfi);
-	cfi.nFont = 0;
-	cfi.dwFontSize.X = 0;                   // Width of each character in the font
-	cfi.dwFontSize.Y = (SHORT)fontSize;                  // Height
-	cfi.FontFamily = FF_DONTCARE;
-	cfi.FontWeight = FW_NORMAL;
-	wcscpy_s(cfi.FaceName, LF_FACESIZE, L"Consolas"); // Choose your font
-	if (!SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi))
-	{
-		__debugbreak();
-	}
 }
 
 ScreenBuffer::~ScreenBuffer()

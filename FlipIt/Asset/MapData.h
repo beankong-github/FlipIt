@@ -21,6 +21,9 @@ public:
 	// 타일맵의 크기
 	Vector2 MapSize() const;
 
+	Vector2 PlayerSpawnPos() const;
+	Vector2 EnemySpawnPos() const;
+
 	const std::vector<ETileState>& operator[](size_t row) const
 	{
 		if(row < initialTileStates.size())
@@ -31,4 +34,6 @@ public:
 
 private:
 	std::vector<std::vector<ETileState>> initialTileStates;
+	int playerSpawnIndex = 0; // Front
+	int enemySpawnIndex = 0; // Back
 };

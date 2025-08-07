@@ -33,8 +33,9 @@ Player::Player(const char* image, Vector2 startPosIndex, EDirection startDir, ET
 
 	//tmp
 	sortingOrder = 3;
-	color = EColor::Red;
-}
+	color = EColor::LightBlue,
+	backgroundColor = EColor::None;
+;}
 
 Player::~Player()
 {

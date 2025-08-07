@@ -11,6 +11,7 @@ enum class EColor : int
 	DarkGray = 8,
 	LightBlue = 9,
 	LightGreen = 10,
+	LightRed = 12,
 	Yellow = 14,
 	White = Red | Green | Blue,
 	Intensity = 8,

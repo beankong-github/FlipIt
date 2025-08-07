@@ -1,0 +1,2 @@
+mapdata = AITestMap
+frontspawnX = 

@@ -72,7 +72,11 @@ Vector2 TextImageRenderer::RenderText(const char* text, Vector2 pos, EColor colo
     int index = 0;
     while (text[index])
     {       
-       
+        if (text[index] == ' ')
+        {
+            position.x += 3;
+            ++index;
+        }
            // 이미지 데이터가 없으면 출력 생략한다
         if (TextImageMap[(int)font].find(text[index]) == TextImageMap[(int)font].end())
         {
@@ -89,6 +93,49 @@ Vector2 TextImageRenderer::RenderText(const char* text, Vector2 pos, EColor colo
         }
 
         Engine::Get().WriteToBuffer(position, curImageData->Size(), curImageData->Buffer(), color, backgroundColor, sortingOrder);
+        position.x += curImageData->Size().x;
+        ++index;
+    }
+
+    return position;
+}
+
+Vector2 TextImageRenderer::RenderTextEX(const char* text, Vector2 pos, std::vector<Vector2> offsets, std::vector<EColor> colors, std::vector<EColor> backgroundColors, int sortingOrder, EFont font)
+{
+    Vector2 position = pos;
+    if (font == EFont::None || font == EFont::Max)
+        return position;
+
+    int index = 0;
+    while (text[index])
+    {
+        if (text[index] == ' ')
+        {
+            position.x += 2;
+            ++index;
+        }
+
+        int offsetIdx = index >= offsets.size() ? offsets.size() - 1 : index;
+        int colorIdx = index >= colors.size() ? colors.size() - 1 : index;
+        int backColorIdx = index >= backgroundColors.size() ? backgroundColors.size() - 1 : index;
+
+
+        // 이미지 데이터가 없으면 출력 생략한다
+        if (TextImageMap[(int)font].find(text[index]) == TextImageMap[(int)font].end())
+        {
+            ++index;
+            continue;
+        }
+        ImageData* curImageData = TextImageMap[(int)font].find(text[index])->second;
+
+        // 이미지 데이터가 없으면 출력 생략한다
+        if (curImageData == nullptr)
+        {
+            ++index;
+            continue;
+        }
+
+        Engine::Get().WriteToBuffer(position + offsets[offsetIdx], curImageData->Size(), curImageData->Buffer(), colors[colorIdx], backgroundColors[backColorIdx], sortingOrder);
         position.x += curImageData->Size().x;
         ++index;
     }

@@ -12,7 +12,8 @@ Game::Game()
 	resourceMgr = new ResourceMgr();
 	textImageRenderer = new TextImageRenderer();
 
-	AddLevel(new GameLevel("AITestMap.txt"));
+	//AddLevel(new GameLevel("AITestMap.txt"));
+	StartGame();
 }
 
 void Game::CleanUp()
@@ -26,7 +27,7 @@ void Game::StartGame()
 {
 	// ·£´ı ¸Ê
 	auto resourceMap =  resourceMgr->GetReosurceHashMap(EResourceType::Map);
-	auto random_it = std::next(resourceMap->begin(), Utils::Random(0, resourceMap->size()));
+	auto random_it = std::next(resourceMap->begin(), Utils::Random(0, resourceMap->size()-1));
 	AddLevel(new GameLevel(random_it->first.c_str()));
 }
 
