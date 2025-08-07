@@ -1,4 +1,4 @@
-width = 170
+width = 180
 height = 50
 framerate = 120
 fontsize = 14

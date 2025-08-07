@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "Actor/Actor.h"
 #include "Utils/Utils.h"
+#include "Input.h"
+#include "Engine.h"
 #include <iostream>
 
 Level::Level()
@@ -177,5 +179,15 @@ void Level::SortActorsBySortingOrder()
 				std::swap(actors[jx], actors[jx + 1]);
 			}
 		}
+	}
+}
+
+void Level::QuitGame()
+{
+	// 입력처리
+	if (Input::Get().GetKeyDown(VK_ESCAPE))
+	{
+		Engine::Get().Quit();
+		return;
 	}
 }

@@ -25,7 +25,7 @@ TextImageRenderer::TextImageRenderer()
             TextImageMap[i].emplace(std::pair<char, ImageData*>(text, dynamic_cast<ImageData*>(resourceMgr->GetResource(EResourceType::Image, name))));
         }
     }
-    // 문자
+    //대문자
     int index = 0;
     while ('A' + index <= 'Z')
     {
@@ -35,12 +35,26 @@ TextImageRenderer::TextImageRenderer()
         TextImageMap[(int)EFont::Text].emplace(std::pair<char, ImageData*>(text, dynamic_cast<ImageData*>(resourceMgr->GetResource(EResourceType::Image, name))));
         ++index;
     }
+    // 소문자
+    index = 0;
+    while ('a' + index <= 'z')
+    {
+        char text = (index + 'a');
+        char name[100];
+        sprintf_s(name, 100, "%s_l%c.txt", fonts[(int)EFont::Text], (char)('a' + index));
+        TextImageMap[(int)EFont::Text].emplace(std::pair<char, ImageData*>(text, dynamic_cast<ImageData*>(resourceMgr->GetResource(EResourceType::Image, name))));
+        ++index;
+    }
 
     // 그 외 (이건 직접해야한다 ㅜㅜ )
     // Timer 폰트에 :
     char key = ':';
-    TextImageMap[0].emplace(std::pair<char, ImageData*>(key, dynamic_cast<ImageData*>(resourceMgr->GetResource(EResourceType::Image, "Colon.txt"))));
+    TextImageMap[(int)EFont::Timer].emplace(std::pair<char, ImageData*>(key, dynamic_cast<ImageData*>(resourceMgr->GetResource(EResourceType::Image, "Colon.txt"))));
     
+    // Text 폰트에:
+    key = '!';
+    TextImageMap[(int)EFont::Text].emplace(std::pair<char, ImageData*>(key, dynamic_cast<ImageData*>(resourceMgr->GetResource(EResourceType::Image, "Text_!.txt"))));
+
 }
 
 TextImageRenderer::~TextImageRenderer()

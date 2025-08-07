@@ -76,8 +76,8 @@ public:
 	// 수명 주기 설정 함수.
 	void SetLifetime(float newLifetime);
 
-	// 게임 종료 요청 함수.
-	void QuitGame();
+	//// 게임 종료 요청 함수.
+	//void QuitGame();
 
 protected:
 	// Transform

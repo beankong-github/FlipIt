@@ -39,33 +39,44 @@ GameLevel::~GameLevel()
 void GameLevel::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CheckScore();
 }
 
 void GameLevel::Tick(float deltaTime)
 {
+	QuitGame();
 
 	if (remainTime <= 0)
 	{
-		return;
-		// 결과창
-
-
 		CheckScore();
-
+		return;
 	}
 
-
 	Super::Tick(deltaTime);
-	
 	remainTime -= deltaTime;
-
-
 }
 
 void GameLevel::Render()
 {
 	// 화면 상단에 남은 시간 렌더링
 	RenderGameTimer();
+
+	// 점수 렌더링
+	// Player
+	Game::Get().GetTextImageRenderer()->RenderText("Player", Vector2( 5, mapPositionOffset.y), EColor::Blue, EColor::None, 10, EFont::Text);
+	Game::Get().GetTextImageRenderer()->RenderText("score", Vector2( 5, mapPositionOffset.y+5), EColor::White, EColor::None, 10, EFont::Text);
+	
+	std::string playerScore = std::to_string(scoreFront);
+	Game::Get().GetTextImageRenderer()->RenderText(playerScore.c_str(), Vector2(15, mapPositionOffset.y + 15), EColor::Blue, EColor::None, 10, EFont::Timer);
+
+
+	// 적
+	Game::Get().GetTextImageRenderer()->RenderText("Enemy", Vector2(Engine::Get().Width()-45, mapPositionOffset.y), EColor::Red, EColor::None, 10, EFont::Text);
+	Game::Get().GetTextImageRenderer()->RenderText("score", Vector2(Engine::Get().Width() - 45, mapPositionOffset.y + 5), EColor::White, EColor::None, 10, EFont::Text);
+
+	std::string enemyScore = std::to_string(scoreBack);
+	Game::Get().GetTextImageRenderer()->RenderText(enemyScore.c_str(), Vector2(Engine::Get().Width() - 35, mapPositionOffset.y + 15), EColor::Red, EColor::None, 10, EFont::Timer);
 
 	Super::Render();
 }
@@ -196,6 +207,8 @@ bool GameLevel::FlipTile(Vector2 index, ETileState state)
 void GameLevel::CheckScore()
 {
 	// 점수 계산
+	scoreFront = 0;
+	scoreBack = 0;
 	for (const auto& tiles : tileMap)
 	{
 		for (const auto& tile : tiles)

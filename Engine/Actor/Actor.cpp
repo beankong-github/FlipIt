@@ -229,7 +229,7 @@ void Actor::SetLifetime(float newLifetime)
 	autoDestroy = true;
 }
 
-void Actor::QuitGame()
-{
-	Engine::Get().Quit();
-}
+//void Actor::QuitGame()
+//{
+//	Engine::Get().Quit();
+//}

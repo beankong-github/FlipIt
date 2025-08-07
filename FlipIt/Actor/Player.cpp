@@ -53,13 +53,6 @@ void Player::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
-	// tmp 종료 처리. 종료처리는 level에서 한다.
-	if (Input::Get().GetKeyDown(VK_ESCAPE))
-	{
-		QuitGame();
-		return;
-	}
-
 	// tmp 입력처리 
 	if (Input::Get().GetKeyDown(VK_RIGHT))
 	{

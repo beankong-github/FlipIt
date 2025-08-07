@@ -55,7 +55,7 @@ private:
 	Vector2 mapPositionOffset;
 
 	// ==== Game Time ============
-	unsigned int gameTime = 15;
+	unsigned int gameTime = 90;
 	float remainTime = 0;
 
 
@@ -64,7 +64,7 @@ private:
 	int scoreBack = 0;
 	
 	// ==== Actor - UI ============
-	class UI* gameOverUI;
+	//class UI* gameOverUI;
 
 
 	// ==== Actor - U ============
