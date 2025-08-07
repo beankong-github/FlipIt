@@ -71,3 +71,12 @@ IAsset* ResourceMgr::GetResource(EResourceType type, const char* name)
 
     return  resourceTableArray[(int)type][name];
 }
+
+const std::unordered_map<std::string, IAsset*>* ResourceMgr::GetReosurceHashMap(EResourceType type)
+{    
+    // None 혹은 MAX 타입 리소스는 없다. Out of range
+    if (type == EResourceType::None || type == EResourceType::MAX)
+        return nullptr;
+
+    return  &resourceTableArray[(int)type];
+}

@@ -6,6 +6,7 @@
 #include "Actor/Player.h"
 #include "Actor/EnemyAI.h"
 #include "Game/TextImageRenderer.h"
+#include "Level/ResultLevel.h"
 
 
 GameLevel::GameLevel(const char* mapName)
@@ -45,11 +46,20 @@ void GameLevel::BeginPlay()
 
 void GameLevel::Tick(float deltaTime)
 {
+#ifdef _DEBUG
+	if (Input::Get().GetKeyDown(VK_BACK))
+	{
+		remainTime = 0;
+	}
+#endif
+	
 	QuitGame();
 
 	if (remainTime <= 0)
 	{
 		CheckScore();
+		// tmp 아니 왜 같은 점순데 변수명이 다달라 미쳤어????????
+		Game::Get().FinishGame(scoreFront, scoreBack);
 		return;
 	}
 

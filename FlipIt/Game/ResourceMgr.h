@@ -40,7 +40,7 @@ public:
 	}
 
 	IAsset* GetResource(EResourceType type, const char* name);
-
+	const std::unordered_map<std::string, IAsset*>* GetReosurceHashMap(EResourceType type);
 
 private:
 	// 리소스 데이터들

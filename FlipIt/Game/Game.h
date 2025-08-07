@@ -18,6 +18,9 @@ public:
 	ResourceMgr* GetResourceMgr() const { return this->resourceMgr; }
 	TextImageRenderer* GetTextImageRenderer() const { return this->textImageRenderer; }
 
+	void StartGame();
+	void FinishGame(int playerScore, int enemyScore);
+
 private:
 	ResourceMgr* resourceMgr;
 	TextImageRenderer* textImageRenderer;
