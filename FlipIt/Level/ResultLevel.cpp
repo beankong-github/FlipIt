@@ -19,11 +19,13 @@ void ResultLevel::SetScore(int front, int back)
 	{
 		isWin = true;
 		title = "You Win!";
+		context = "";
 	}
 	else if (frontScore < BackScore)
 	{
 		isWin = false;
 		title = "You Lose";
+		context = "";
 	}
 	else
 	{
@@ -45,10 +47,16 @@ void ResultLevel::Render()
 	assert(titleRenderer);
 
 	//Super::Render();
+	EColor color;
+	if (frontScore > BackScore)
+		color = EColor::LightBlue;
+	else
+		color = EColor::LightRed;
+
 	Vector2 titlepos;
 	titlepos.x = Engine::Get().Width() / 2 - title.length() * 3;
 	titlepos.y = 10;
-	titleRenderer->RenderText(title.c_str(), titlepos, EColor::White, EColor::None, 10);
+	titleRenderer->RenderText(title.c_str(), titlepos, color, EColor::None, 10);
 
 	Vector2 contextpos;
 	contextpos.x = titlepos.x - context.length();
